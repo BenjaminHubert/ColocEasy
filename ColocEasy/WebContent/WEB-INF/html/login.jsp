@@ -20,6 +20,7 @@
 							<label for="pwd_field">Mot de passe</label> 
 						</div>
 						<div class="right-align">
+							<a href="signup" id="signin-button" class="btn-large waves-effect waves-light indigo">Inscription</a>
 							<a href="signin" id="signin-button" class="btn-large waves-effect waves-light deep-orange lighten-1">Connexion</a>
 						</div>
 					</div>

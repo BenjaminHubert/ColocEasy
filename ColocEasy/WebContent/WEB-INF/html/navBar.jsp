@@ -2,7 +2,7 @@
 
 <nav class="indigo darken-2" role="navigation">
 	<div class="nav-wrapper container">
-		<a id="logo-container" href="index" class="brand-logo white-text">Titre</a>
+		<a id="logo-container" href="index" class="brand-logo white-text">ColocEasy</a>
 		<ul class="right hide-on-med-and-down">
 			<li>
 				<form>

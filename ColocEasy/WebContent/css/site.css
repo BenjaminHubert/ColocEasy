@@ -23,3 +23,8 @@
    background:url("../img/background1.jpg") no-repeat 0% 0%;
    background-size:cover;
 }
+
+/*fix search bar*/
+nav .nav-wrapper form, nav .nav-wrapper form .input-field{
+	height: 64px;
+}
