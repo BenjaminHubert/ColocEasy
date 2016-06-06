@@ -29,6 +29,18 @@
 								<label for="login_field">E-mail</label> 
 							</div>
 							<div class="input-field">
+								<input type="date" class="datepicker" id="bday_field">
+								<label for="bday_field">Date de naissance</label> 
+							</div>
+							<div class="input-field" style="margin-top:0">
+								<label>Genre</label><br>
+								<input class="with-gap" name="gender" type="radio" id="male"  />
+      							<label for="male">Homme</label>
+      							<input class="with-gap" name="gender" type="radio" id="female"  />
+      							<label for="female">Femme</label>
+      						</div>
+      						<br>
+							<div class="input-field">
 								<input type="password" id="pwd_field">
 								<label for="pwd_field">Mot de passe</label> 
 							</div>
