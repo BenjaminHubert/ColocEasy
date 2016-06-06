@@ -27,7 +27,7 @@
 			Développé par <a class="deep-orange-text text-lighten-1"
 				href="https://github.com/axeldelannay">Axel Delannay</a>, <a
 				class="deep-orange-text text-lighten-1"
-				href="https://github.com/bertrandf26">Bertrand Freylin</a>, <a
+				href="https://github.com/bertrandfreylin">Bertrand Freylin</a>, <a
 				class="deep-orange-text text-lighten-1"
 				href="https://github.com/benjaminhubert">Benjamin Hubert</a>, <a
 				class="deep-orange-text text-lighten-1"
