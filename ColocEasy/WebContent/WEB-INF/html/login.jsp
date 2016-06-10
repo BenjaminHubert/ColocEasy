@@ -11,18 +11,20 @@
 				<div class="card">
 					<div class="card-content">
 						<span class="card-title">Connexion</span><br>
-						<div class="input-field">
-							<input type="text" id="login_field">
-							<label for="login_field">E-mail</label> 
-						</div>
-						<div class="input-field">
-							<input type="password" id="pwd_field" class="validate">
-							<label for="pwd_field">Mot de passe</label> 
-						</div>
-						<div class="right-align">
-							<a href="signup" id="signin-button" class="btn-large waves-effect waves-light indigo">Inscription</a>
-							<a href="signin" id="signin-button" class="btn-large waves-effect waves-light deep-orange lighten-1">Connexion</a>
-						</div>
+						<form action="login" method="post">
+							<div class="input-field">
+								<input type="text" id="login_field" name="login">
+								<label for="login_field">E-mail</label> 
+							</div>
+							<div class="input-field">
+								<input type="password" id="pwd_field" name="password" class="validate">
+								<label for="pwd_field">Mot de passe</label> 
+							</div>
+							<div class="right-align">
+								<a href="signup" id="signin-button" class="btn-large waves-effect waves-light indigo">Inscription</a>
+								<button id="signin-button" class="btn-large waves-effect waves-light deep-orange lighten-1">Connexion</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>

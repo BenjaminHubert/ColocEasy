@@ -8,14 +8,14 @@
     <servlet-name>Index</servlet-name>
     <url-pattern>/index</url-pattern>
   </servlet-mapping>
-  <servlet>
+<!--   <servlet>
     <servlet-name>Login</servlet-name>
     <servlet-class>freres.servlets.Login</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
     <url-pattern>/login</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping> -->
   <servlet>
     <servlet-name>Signup</servlet-name>
     <servlet-class>freres.servlets.Signup</servlet-class>
@@ -33,11 +33,11 @@
     <url-pattern>/profile</url-pattern>
   </servlet-mapping>
   <servlet>
-  	<servlet-name>Coloc</servlet-name>
-  	<servlet-class>freres.servlets.Coloc</servlet-class>
+    <servlet-name>Coloc</servlet-name>
+    <servlet-class>freres.servlets.Coloc</servlet-class>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>Coloc</servlet-name>
-  	<url-pattern>/coloc</url-pattern>
+    <servlet-name>Coloc</servlet-name>
+    <url-pattern>/coloc</url-pattern>
   </servlet-mapping>
 </web-app>
