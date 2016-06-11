@@ -11,48 +11,50 @@
 				<div class="card">
 					<div class="card-content">
 						<span class="card-title">Inscription</span><br>
-						<div class="col s6">
-							<div class="input-field">
-								<input type="text" id="fname_field">
-								<label for="fname_field">Prénom</label> 
+						<form action="signup" method="post">
+							<div class="col s6">
+								<div class="input-field">
+									<input type="text" id="fname_field">
+									<label for="fname_field">Prénom</label> 
+								</div>
+							</div>
+							<div class="col s6">
+								<div class="input-field">
+									<input type="text" id="lname_field">
+									<label for="lname_field">Nom</label> 
+								</div>
+							</div>
+							<div class="col s12">
+								<div class="input-field">
+									<input type="text" id="login_field" name="login">
+									<label for="login_field">E-mail</label> 
+								</div>
+								<div class="input-field">
+									<input type="date" class="datepicker" id="bday_field">
+									<label for="bday_field">Date de naissance</label> 
+								</div>
+								<div class="input-field" style="margin-top:0">
+									<label>Genre</label><br>
+									<input class="with-gap" name="gender" type="radio" id="male"  />
+	      							<label for="male">Homme</label>
+	      							<input class="with-gap" name="gender" type="radio" id="female"  />
+	      							<label for="female">Femme</label>
+	      						</div>
+	      						<br>
+								<div class="input-field">
+									<input type="password" id="pwd_field" name="password">
+									<label for="pwd_field">Mot de passe</label> 
+								</div>
+								<div class="input-field">
+									<input type="password" id="confirmation_field">
+									<label for="confirmation_field">Confirmation du mot de passe</label> 
+								</div>
+							</div>
+							<div class="right-align">
+								<button href="signin" id="signin-button" class="btn-large waves-effect waves-light deep-orange lighten-1">S'inscrire</button>
 							</div>
 						</div>
-						<div class="col s6">
-							<div class="input-field">
-								<input type="text" id="lname_field">
-								<label for="lname_field">Nom</label> 
-							</div>
-						</div>
-						<div class="col s12">
-							<div class="input-field">
-								<input type="text" id="login_field">
-								<label for="login_field">E-mail</label> 
-							</div>
-							<div class="input-field">
-								<input type="date" class="datepicker" id="bday_field">
-								<label for="bday_field">Date de naissance</label> 
-							</div>
-							<div class="input-field" style="margin-top:0">
-								<label>Genre</label><br>
-								<input class="with-gap" name="gender" type="radio" id="male"  />
-      							<label for="male">Homme</label>
-      							<input class="with-gap" name="gender" type="radio" id="female"  />
-      							<label for="female">Femme</label>
-      						</div>
-      						<br>
-							<div class="input-field">
-								<input type="password" id="pwd_field">
-								<label for="pwd_field">Mot de passe</label> 
-							</div>
-							<div class="input-field">
-								<input type="password" id="confirmation_field">
-								<label for="confirmation_field">Confirmation du mot de passe</label> 
-							</div>
-						</div>
-						<div class="right-align">
-							<a href="signin" id="signin-button" class="btn-large waves-effect waves-light deep-orange lighten-1">S'inscrire</a>
-						</div>
-					</div>
+					</form>
 				</div>
 			</div>
 		</div>

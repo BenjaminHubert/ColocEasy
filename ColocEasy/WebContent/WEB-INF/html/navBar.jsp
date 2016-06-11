@@ -16,8 +16,8 @@
 			<% if( request.getSession().getAttribute("userSession") == null){ %>
 			<li><a href="login">Se connecter</a></li>
 			<% } else {%>
-			<li>Bonjour <% request.getSession().getAttribute("userSession").toString(); %></li>
-			<li><a href="signout">Déconnexion</a></li>
+			<li>Bonjour <% request.getSession().getAttribute("userSession"); %></li>
+			<li><a href="logout">Déconnexion</a></li>
 			<% } %>
 			<li><a href="profile">Profil</a></li>
 		</ul>
@@ -32,7 +32,12 @@
 					</div>
 				</form>
 			</li>
+			<% if( request.getSession().getAttribute("userSession") == null){ %>
 			<li><a href="login">Se connecter</a></li>
+			<% } else {%>
+			<li>Bonjour <% request.getSession().getAttribute("userSession"); %></li>
+			<li><a href="logout">Déconnexion</a></li>
+			<% } %>
 			<li><a href="profile">Profil</a></li>
 		</ul>
 		<a href="#" data-activates="nav-mobile" class="button-collapse"><i

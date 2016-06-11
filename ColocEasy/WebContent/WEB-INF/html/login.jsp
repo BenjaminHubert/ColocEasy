@@ -13,7 +13,7 @@
 						<span class="card-title">Connexion</span><br>
 						<form action="login" method="post">
 							<div class="input-field">
-								<input type="text" id="login_field" name="login">
+								<input type="text" id="login_field" name="login" autocomplete="off">
 								<label for="login_field">E-mail</label> 
 							</div>
 							<div class="input-field">

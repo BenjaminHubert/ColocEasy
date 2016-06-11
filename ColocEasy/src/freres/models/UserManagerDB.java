@@ -9,8 +9,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.security.*;
-
 public class UserManagerDB implements IUserManager {
 	private Connection connection;
 	
@@ -18,7 +16,6 @@ public class UserManagerDB implements IUserManager {
 		try {
 			this.connection = this.getConnection();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
