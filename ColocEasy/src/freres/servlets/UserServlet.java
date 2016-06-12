@@ -84,16 +84,25 @@ public class UserServlet extends HttpServlet {
 	 private void create(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		 final String login = request.getParameter("login");
 		 final String password = request.getParameter("password");
+		 final String confirm = request.getParameter("confirm");
+		 final String last_name = request.getParameter("last_name");
+		 final String first_name = request.getParameter("first_name");
+		 final String birth_date = request.getParameter("birth_date_submit");
+		 final String sexe = request.getParameter("sexe");
 		
 		 if (login != null && password != null) {
-			 if (this.userManager.checkLogin(login)) {
-				 request.setAttribute("errorMessage", "User already exists. Please chose another");
-				 System.out.println(request.getAttribute("errorMessage"));
-			 } else {
-				 this.userManager.createUser(login, password);
-				 request.setAttribute("success", "User succesfully created");
-				 System.out.println(request.getAttribute("success"));
-			 }
+			 if(password.equals(confirm)){
+				 if (this.userManager.checkLogin(login)) {
+					 request.setAttribute("errorMessage", "User already exists. Please chose another");
+					 System.out.println(request.getAttribute("errorMessage"));
+				 } else {
+					 this.userManager.createUser(login, password, last_name, first_name, birth_date, sexe);
+					 request.setAttribute("success", "User succesfully created");
+					 System.out.println(request.getAttribute("success"));
+					 response.sendRedirect("confirm");
+					 return;
+				 }
+			 }System.out.println("The passwords do not match.");
 		 }
 		 request.setAttribute("action", "create");
 		 request.getRequestDispatcher("/WEB-INF/html/signup.jsp").forward(request, response);

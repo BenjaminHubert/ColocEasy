@@ -11,50 +11,54 @@
 				<div class="card">
 					<div class="card-content">
 						<span class="card-title">Inscription</span><br>
-						<form action="signup" method="post">
-							<div class="col s6">
-								<div class="input-field">
-									<input type="text" id="fname_field">
-									<label for="fname_field">Prénom</label> 
+						<% if (request.getSession().getAttribute("userSession") == null){ %>
+							<form action="signup" method="post">
+								<div class="col s6">
+									<div class="input-field">
+										<input type="text" id="fname_field" name="first_name" required>
+										<label for="fname_field">Prénom</label> 
+									</div>
+								</div>
+								<div class="col s6">
+									<div class="input-field">
+										<input type="text" id="lname_field" name="last_name" required>
+										<label for="lname_field">Nom</label> 
+									</div>
+								</div>
+								<div class="col s12">
+									<div class="input-field">
+										<input type="text" id="login_field" name="login" required>
+										<label for="login_field">E-mail</label> 
+									</div>
+									<div class="input-field">
+										<input type="date" class="datepicker" id="bday_field" name="birth_date">
+			            				<label for="bday_field">Date de naissance</label> 
+									</div>
+									<div class="input-field" style="margin-top:0">
+										<label>Genre</label><br>
+										<input class="with-gap" name="sexe" type="radio" id="male" value=0 />
+		      							<label for="male">Homme</label>
+		      							<input class="with-gap" name="sexe" type="radio" id="female" value=1 />
+		      							<label for="female">Femme</label>
+		      						</div>
+		      						<br>
+									<div class="input-field">
+										<input type="password" id="pwd_field" name="password" required>
+										<label for="pwd_field">Mot de passe</label> 
+									</div>
+									<div class="input-field">
+										<input type="password" id="confirmation_field" name="confirm" required>
+										<label for="confirmation_field">Confirmation du mot de passe</label> 
+									</div>
+								</div>
+								<div class="right-align">
+									<button href="signin" id="signin-button" class="btn-large waves-effect waves-light deep-orange lighten-1">S'inscrire</button>
 								</div>
 							</div>
-							<div class="col s6">
-								<div class="input-field">
-									<input type="text" id="lname_field">
-									<label for="lname_field">Nom</label> 
-								</div>
-							</div>
-							<div class="col s12">
-								<div class="input-field">
-									<input type="text" id="login_field" name="login">
-									<label for="login_field">E-mail</label> 
-								</div>
-								<div class="input-field">
-									<input type="date" class="datepicker" id="bday_field">
-									<label for="bday_field">Date de naissance</label> 
-								</div>
-								<div class="input-field" style="margin-top:0">
-									<label>Genre</label><br>
-									<input class="with-gap" name="gender" type="radio" id="male"  />
-	      							<label for="male">Homme</label>
-	      							<input class="with-gap" name="gender" type="radio" id="female"  />
-	      							<label for="female">Femme</label>
-	      						</div>
-	      						<br>
-								<div class="input-field">
-									<input type="password" id="pwd_field" name="password">
-									<label for="pwd_field">Mot de passe</label> 
-								</div>
-								<div class="input-field">
-									<input type="password" id="confirmation_field">
-									<label for="confirmation_field">Confirmation du mot de passe</label> 
-								</div>
-							</div>
-							<div class="right-align">
-								<button href="signin" id="signin-button" class="btn-large waves-effect waves-light deep-orange lighten-1">S'inscrire</button>
-							</div>
-						</div>
-					</form>
+						</form>
+						<% } else { %>
+						Bien tenté mais vous êtes déjà inscrit sur le site. :)
+						<% } %>
 				</div>
 			</div>
 		</div>

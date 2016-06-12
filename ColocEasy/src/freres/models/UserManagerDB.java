@@ -45,16 +45,20 @@ public class UserManagerDB implements IUserManager {
 	}
 
 	@Override
-	public boolean createUser(String login, String password) {
+	public boolean createUser(String login, String password, String last_name, String first_name, String birth_date, String sexe) {
 		PreparedStatement stmt = null;
 		int result = 0;
 		try {
 			
-			String userSQL = "INSERT INTO utilisateur(login, password) VALUES(?, ?);";
+			String userSQL = "INSERT INTO utilisateur(login, password, last_name, first_name, birth_date, sexe) VALUES(?, ?, ?, ?, ?, ? );";
 			stmt = this.connection.prepareStatement(userSQL);
 			
 			stmt.setString(1, login);
 			stmt.setString(2, password);
+			stmt.setString(3, last_name);
+			stmt.setString(4, first_name);
+			stmt.setString(5, birth_date);
+			stmt.setString(6, sexe);
 			
 			result = stmt.executeUpdate();
 			stmt.close();
@@ -79,7 +83,11 @@ public class UserManagerDB implements IUserManager {
 			while(rs.next()){
 				String loginU = rs.getString("login");
 				String password = rs.getString("password");
-				user = new User(loginU, password);
+				String lastName = rs.getString("last_name");
+				String firstName = rs.getString("first_name");
+				String birthDate = rs.getString("birth_date");
+				int sexe = rs.getInt("sexe");
+				user = new User(loginU, password, lastName, firstName, birthDate, sexe);
 			}
 			rs.close();
 			stmt.close();
@@ -99,9 +107,13 @@ public class UserManagerDB implements IUserManager {
 			String userSQL = "SELECT * FROM utilisateur";
 			rs = stmt.executeQuery(userSQL);
 			while(rs.next()){
-				String login = rs.getString("login");
+				String loginU = rs.getString("login");
 				String password = rs.getString("password");
-				User newUser = new User(login, password);
+				String lastName = rs.getString("last_name");
+				String firstName = rs.getString("first_name");
+				String birthDate = rs.getString("birth_date");
+				int sexe = rs.getInt("sexe");
+				User newUser = new User(loginU, password, lastName, firstName, birthDate, sexe);
 				userList.add(newUser);
 			}
 			rs.close();

@@ -16,7 +16,7 @@
 			<% if( request.getSession().getAttribute("userSession") == null){ %>
 			<li><a href="login">Se connecter</a></li>
 			<% } else {%>
-			<li>Bonjour <% request.getSession().getAttribute("userSession"); %></li>
+			<li>Bonjour <%= request.getSession().getAttribute("userSession") %></li>
 			<li><a href="logout">Déconnexion</a></li>
 			<% } %>
 			<li><a href="profile">Profil</a></li>

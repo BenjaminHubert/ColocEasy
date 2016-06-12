@@ -25,7 +25,7 @@
 	            <input id="birthday" type="date" name="birthday" class="datepicker" required value="">
 	            <label for="birthday">Date de naissance *</label>
 	        </div>
-	        <div class="input-field col s12 m6">
+	        <!-- <div class="input-field col s12 m6">
 	        	<i class="material-icons prefix">store</i>
 	        	<input id="adress_1" name="address" type="text" class="validate" required value="">
 	        	<label for="address_1">Adresse *</label>
@@ -44,7 +44,7 @@
 	        	<i class="material-icons prefix">contact_phone</i>
 	        	<input id="phone" name="phone" type="text" class="validate" required value="">
 	        	<label for="phone">Téléphone</label>
-	        </div>
+	        </div> -->
 	        <div class="input-field col s12 m12">
 	            <i class="material-icons prefix">contact_mail</i>
 	            <input id="email" name="email" type="email" class="validate" required value="">
