@@ -18,7 +18,7 @@ import freres.models.UserManagerDB;
 @WebServlet(
 		name = "user-servlet", 
 		description = "Servlet handling user login", 
-		urlPatterns = { "/login", "/logout" , "/signup"/*, "/list"*/, "/profile" })
+		urlPatterns = { "/login", "/logout" , "/signup", "/profile" /*, "/list"*/ })
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String USER_SESSION = "userSession";
@@ -78,7 +78,7 @@ public class UserServlet extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/html/login.jsp").forward(request, response);
 	}
 
-	 private void create(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+	private void create(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		 final String login = request.getParameter("login");
 		 final String password = request.getParameter("password");
 		 final String confirm = request.getParameter("confirm");
@@ -106,6 +106,46 @@ public class UserServlet extends HttpServlet {
 		 request.setAttribute("action", "create");
 		 request.getRequestDispatcher("/WEB-INF/html/signup.jsp").forward(request, response);
 	 }
+	 
+	private void profile(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException { 
+		if(request.getSession().getAttribute(this.USER_SESSION) != null) {
+			User u = this.userManager.getUser(request.getSession().getAttribute(this.USER_SESSION).toString());
+			request.setAttribute("user", u);
+		}
+
+		final String birth_date = request.getParameter("birthday_submit");
+		final String login = request.getParameter("email");
+		final String first_name = request.getParameter("first_name");
+		final String last_name = request.getParameter("last_name");
+		final String id = request.getParameter("id");
+		final String sexe = request.getParameter("sexe");
+		final String password = request.getParameter("password");
+		final String confirm = request.getParameter("password_confirmation");
+		final String new_pass = request.getParameter("password_new");
+		
+		if(id != null) {
+			if(new_pass.equals(confirm) && password.equals(((User)request.getSession().getAttribute(this.USER_SESSION)).getPassword())){
+				if(this.userManager.editUser(id, login, new_pass, last_name, first_name, birth_date, sexe)){
+					//TODO: Modifier la session après modif de l'utilisateur
+					request.getSession().setAttribute(this.USER_SESSION, this.userManager.getUser(Integer.parseInt(id)));
+					request.setAttribute("success", "The user "+login+" has been updated.");
+					System.out.println("The user "+login+" has been updated.");
+				}
+			} else {
+				 request.setAttribute("errorMessage", "The passwords do not match.");
+				 System.out.println("The passwords do not match.");
+			}
+		}
+		request.setAttribute("action", "profile");
+		request.getRequestDispatcher("/WEB-INF/html/profile.jsp").forward(request, response);
+	}
+	 
+	private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		System.out.println(request.getSession().getAttribute(USER_SESSION)+" logging out, redirecting to index");
+		request.getSession().removeAttribute(this.USER_SESSION);
+		response.sendRedirect("index");
+	}
+
 	//
 	// private void list(HttpServletRequest request, HttpServletResponse
 	// response) throws IOException, ServletException {
@@ -120,30 +160,4 @@ public class UserServlet extends HttpServlet {
 	// response);
 	// }
 	//
-	// private void home(HttpServletRequest request, HttpServletResponse
-	// response) throws IOException, ServletException {
-	// User user = (User)
-	// request.getSession().getAttribute(UserServlet.USER_SESSION);
-	// if (user == null) {
-	// response.sendRedirect("login");
-	// return;
-	// }
-	// request.setAttribute("login", user.getLogin());
-	// request.getRequestDispatcher("/WEB-INF/html/home.jsp").forward(request,
-	// response);
-	// }
-	//
-	 
-	 private void profile(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		 User u = this.userManager.getUser(request.getSession().getAttribute(this.USER_SESSION).toString());
-		 request.setAttribute("user", u);
-		 request.getRequestDispatcher("/WEB-INF/html/profile.jsp").forward(request, response);
-	 }
-	 
-	private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		System.out.println(request.getSession().getAttribute(USER_SESSION)+" logging out, redirecting to index");
-		request.getSession().removeAttribute(this.USER_SESSION);
-		response.sendRedirect("index");
-	}
-
 }

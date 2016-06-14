@@ -81,13 +81,14 @@ public class UserManagerDB implements IUserManager {
 			
 			rs = stmt.executeQuery();
 			while(rs.next()){
+				Integer id = rs.getInt("id");
 				String loginU = rs.getString("login");
 				String password = rs.getString("password");
 				String lastName = rs.getString("last_name");
 				String firstName = rs.getString("first_name");
 				String birthDate = rs.getString("birth_date");
-				int sexe = rs.getInt("sexe");
-				user = new User(loginU, password, lastName, firstName, birthDate, sexe);
+				Integer sexe = rs.getInt("sexe");
+				user = new User(id, loginU, password, lastName, firstName, birthDate, sexe);
 			}
 			rs.close();
 			stmt.close();
@@ -107,13 +108,14 @@ public class UserManagerDB implements IUserManager {
 			String userSQL = "SELECT * FROM utilisateur";
 			rs = stmt.executeQuery(userSQL);
 			while(rs.next()){
+				Integer id = rs.getInt("id");
 				String loginU = rs.getString("login");
 				String password = rs.getString("password");
 				String lastName = rs.getString("last_name");
 				String firstName = rs.getString("first_name");
 				String birthDate = rs.getString("birth_date");
-				int sexe = rs.getInt("sexe");
-				User newUser = new User(loginU, password, lastName, firstName, birthDate, sexe);
+				Integer sexe = rs.getInt("sexe");
+				User newUser = new User(id, loginU, password, lastName, firstName, birthDate, sexe);
 				userList.add(newUser);
 			}
 			rs.close();
@@ -144,5 +146,60 @@ public class UserManagerDB implements IUserManager {
 	protected void finalize() throws Throwable {
 		this.connection.close();
 		super.finalize();
+	}
+
+	@Override
+	public boolean editUser(String id, String login, String password, String last_name, String first_name, String birth_date, String sexe) {
+		PreparedStatement stmt = null;
+		int result = 0;
+		try {
+			
+			String userSQL = "UPDATE utilisateur SET login=?, password=?, last_name=?, first_name=?, birth_date=?, sexe=? WHERE id = ?;";
+			stmt = this.connection.prepareStatement(userSQL);
+			
+			stmt.setString(1, login);
+			stmt.setString(2, password);
+			stmt.setString(3, last_name);
+			stmt.setString(4, first_name);
+			stmt.setString(5, birth_date);
+			stmt.setString(6, sexe);
+			stmt.setString(7, id);
+			
+			result = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		return result == 1;
+	}
+
+	@Override
+	public User getUser(Integer id) {
+		User user = null; 
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			
+			String userSQL = "SELECT * FROM utilisateur WHERE id = ?";
+			stmt = this.connection.prepareStatement(userSQL);
+			stmt.setInt(1, id);
+			
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				Integer idU = rs.getInt("id");
+				String loginU = rs.getString("login");
+				String password = rs.getString("password");
+				String lastName = rs.getString("last_name");
+				String firstName = rs.getString("first_name");
+				String birthDate = rs.getString("birth_date");
+				Integer sexe = rs.getInt("sexe");
+				user = new User(idU, loginU, password, lastName, firstName, birthDate, sexe);
+			}
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		return user;
 	}
 }

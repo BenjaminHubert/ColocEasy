@@ -1,4 +1,3 @@
-<%@ page pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <jsp:directive.include file="headers.jsp" />
@@ -13,7 +12,7 @@
 				<br> <br>
 				<h1 class="header center white-text">Bienvenue sur Coloc Easy</h1>
 				<div class="row center white-text">
-					<h4 class="header col s12 light">SpÃ©cialiste de la colocation entre particuliers</h4>
+					<h4 class="header col s12 light">Spécialiste de la colocation entre particuliers</h4>
 				</div>
 				<div class="row center">
 					<c:choose>
@@ -92,7 +91,7 @@
 		<div class="section no-pad-bot">
 			<div class="container">
 				<div class="row center">
-					<h5 class="header col s12 light">Petite phrase stylÃ©e 2</h5>
+					<h5 class="header col s12 light">Petite phrase stylée 2</h5>
 				</div>
 			</div>
 		</div>
@@ -115,11 +114,11 @@
 							      	<img class="activator" src="img/background3.jpg">
 							    </div>
 							    <div class="card-content">
-									<span class="card-title activator grey-text text-darken-4">Appartement cosy 12Ã¨me<i class="material-icons right">more_vert</i></span>
+									<span class="card-title activator grey-text text-darken-4">Appartement cosy 12ème<i class="material-icons right">more_vert</i></span>
 								    <p><a href="coloc">Voir</a></p>
 							    </div>
 							    <div class="card-reveal">
-								    <span class="card-title grey-text text-darken-4">Appartement cosy 12Ã¨me<i class="material-icons right">close</i></span>
+								    <span class="card-title grey-text text-darken-4">Appartement cosy 12ème<i class="material-icons right">close</i></span>
 								    <p>Here is some more information about this product that is only revealed once clicked on.</p>
 							    </div>
 						  </div>
@@ -130,11 +129,11 @@
 							      	<img class="activator" src="img/background3.jpg">
 							    </div>
 							    <div class="card-content">
-									<span class="card-title activator grey-text text-darken-4">Studio trÃ¨s sale mamÃ¨ne<i class="material-icons right">more_vert</i></span>
+									<span class="card-title activator grey-text text-darken-4">Studio très sale mamène<i class="material-icons right">more_vert</i></span>
 								    <p><a href="coloc">Voir</a></p>
 							    </div>
 							    <div class="card-reveal">
-								    <span class="card-title grey-text text-darken-4">Studio trÃ¨s sale mamÃ¨ne<i class="material-icons right">close</i></span>
+								    <span class="card-title grey-text text-darken-4">Studio très sale mamène<i class="material-icons right">close</i></span>
 								    <p>Here is some more information about this product that is only revealed once clicked on.</p>
 							    </div>
 						  </div>
@@ -145,11 +144,11 @@
 						      	<img class="activator" src="img/background3.jpg">
 						    </div>
 						    <div class="card-content">
-								<span class="card-title activator grey-text text-darken-4">29mÂ² qui font plaiz'<i class="material-icons right">more_vert</i></span>
+								<span class="card-title activator grey-text text-darken-4">29m² qui font plaiz'<i class="material-icons right">more_vert</i></span>
 							    <p><a href="coloc">Voir</a></p>
 						    </div>
 						    <div class="card-reveal">
-							    <span class="card-title grey-text text-darken-4">29mÂ² qui font plaiz'<i class="material-icons right">close</i></span>
+							    <span class="card-title grey-text text-darken-4">29m² qui font plaiz'<i class="material-icons right">close</i></span>
 							    <p>Here is some more information about this product that is only revealed once clicked on.</p>
 						    </div>
 					  </div>
@@ -162,7 +161,7 @@
 		<div class="section no-pad-bot">
 			<div class="container">
 				<div class="row center">
-					<h5 class="header col s12 light center-align">Petite phrase stylÃ©e 3</h5>
+					<h5 class="header col s12 light center-align">Petite phrase stylée 3</h5>
 				</div>
 			</div>
 		</div>

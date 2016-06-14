@@ -1,14 +1,12 @@
-<%@ page pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <footer class="page-footer indigo darken-2">
 	<div class="container">
 		<div class="row">
 			<div class="col l6 s12">
 				<h5 class="white-text">A propos</h5>
-				<p class="grey-text text-lighten-4">Nous sommes une √©quipe
-					d'√©tudiants qui travaillons sur ce projet comme si c'√©tait un job √†
-					plein temps. Un don aiderait grandement √† la maintenance et au
-					d√©veloppement du projet et nous vous serions tr√®s reconnaissant.</p>
+				<p class="grey-text text-lighten-4">Nous sommes une Èquipe
+					d'Ètudiants qui travaillons sur ce projet comme si c'Ètait un job ‡
+					plein temps. Un don aiderait grandement ‡ la maintenance et au
+					dÈveloppement du projet et nous vous serions trËs reconnaissant.</p>
 			</div>
 			<div class="col l4 offset-l2 s12">
 				<h5 class="white-text">Lorem Ipsum</h5>
@@ -23,7 +21,7 @@
 	</div>
 	<div class="footer-copyright">
 		<div class="container">
-			D√©velopp√© par <a class="deep-orange-text text-lighten-1"
+			DÈveloppÈ par <a class="deep-orange-text text-lighten-1"
 				href="https://github.com/axeldelannay">Axel Delannay</a>, <a
 				class="deep-orange-text text-lighten-1"
 				href="https://github.com/bertrandfreylin">Bertrand Freylin</a>, <a
