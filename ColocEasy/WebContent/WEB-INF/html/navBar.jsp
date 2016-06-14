@@ -1,4 +1,5 @@
-<%@ page contentType="text/html; charset=ISO-8859-1"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <nav class="indigo darken-2" role="navigation">
 	<div class="nav-wrapper container">
@@ -16,10 +17,9 @@
 			<% if( request.getSession().getAttribute("userSession") == null){ %>
 			<li><a href="login">Se connecter</a></li>
 			<% } else {%>
-			<li>Bonjour <%= request.getSession().getAttribute("userSession") %></li>
-			<li><a href="logout">Déconnexion</a></li>
+			<li><a href="profile"><c:out value="${sessionScope.userSession.firstName }" /></a></li>
+			<li><a href="logout">DÃ©connexion</a></li>
 			<% } %>
-			<li><a href="profile">Profil</a></li>
 		</ul>
 
 		<ul id="nav-mobile" class="side-nav">
@@ -36,7 +36,7 @@
 			<li><a href="login">Se connecter</a></li>
 			<% } else {%>
 			<li>Bonjour <% request.getSession().getAttribute("userSession"); %></li>
-			<li><a href="logout">Déconnexion</a></li>
+			<li><a href="logout">DÃ©connexion</a></li>
 			<% } %>
 			<li><a href="profile">Profil</a></li>
 		</ul>

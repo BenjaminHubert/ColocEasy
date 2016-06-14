@@ -18,7 +18,7 @@ import freres.models.UserManagerDB;
 @WebServlet(
 		name = "user-servlet", 
 		description = "Servlet handling user login", 
-		urlPatterns = { "/login", "/logout" , "/signup"/*, "/list", "/home" */ })
+		urlPatterns = { "/login", "/logout" , "/signup"/*, "/list"*/, "/profile" })
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String USER_SESSION = "userSession";
@@ -45,6 +45,8 @@ public class UserServlet extends HttpServlet {
 			this.logout(request, response);
 		} else if (uri.contains("/signup")) {
 			this.create(request, response);
+		} else if(uri.contains("/profile")) {
+			this.profile(request, response);
 		}
 	}
 
@@ -63,19 +65,14 @@ public class UserServlet extends HttpServlet {
 
 		if (login == null || password == null) {
 			System.out.println("Navigating to login.");
-		} else if (this.userManager.checkLogin(login)) {
-			if (this.userManager.checkLoginWithPassword(login, password)) {
+		} else if (this.userManager.checkLoginWithPassword(login, password)) {
 				request.getSession().setAttribute(this.USER_SESSION, this.userManager.getUser(login));
 				System.out.println(request.getSession().getAttribute(this.USER_SESSION) + " logging in, redirecting to index.");
 				response.sendRedirect("index");
 				return;
-			} else {
-				request.setAttribute("errorMessage", "Bad password");
-				System.out.println("Bad pwd");
-			}
-		} else {
-			request.setAttribute("errorMessage", "User not found");
-			System.out.println("User not found");
+			}  else {
+			request.setAttribute("errorMessage", "Login ou mot de passe incorrect");
+			System.out.println("Login failed");
 		}
 		request.setAttribute("action", "login");
 		request.getRequestDispatcher("/WEB-INF/html/login.jsp").forward(request, response);
@@ -102,7 +99,9 @@ public class UserServlet extends HttpServlet {
 					 response.sendRedirect("confirm");
 					 return;
 				 }
-			 }System.out.println("The passwords do not match.");
+			 }
+			 request.setAttribute("errorMessage", "The passwords do not match.");
+			 System.out.println("The passwords do not match.");
 		 }
 		 request.setAttribute("action", "create");
 		 request.getRequestDispatcher("/WEB-INF/html/signup.jsp").forward(request, response);
@@ -134,6 +133,13 @@ public class UserServlet extends HttpServlet {
 	// response);
 	// }
 	//
+	 
+	 private void profile(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		 User u = this.userManager.getUser(request.getSession().getAttribute(this.USER_SESSION).toString());
+		 request.setAttribute("user", u);
+		 request.getRequestDispatcher("/WEB-INF/html/profile.jsp").forward(request, response);
+	 }
+	 
 	private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		System.out.println(request.getSession().getAttribute(USER_SESSION)+" logging out, redirecting to index");
 		request.getSession().removeAttribute(this.USER_SESSION);

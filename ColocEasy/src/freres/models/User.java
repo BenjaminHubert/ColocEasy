@@ -3,16 +3,29 @@ package freres.models;
 public class User {
 	private String login;
 	private String password;
-	private String last_name;
-	private String first_name;
+	private String lastName;
+	private String firstName;
 	private String birth_date;
 	private int sexe;
 	
 	public User(String login, String password, String last_name, String first_name, String birth_date, int sexe) {
 		this.login = login;
 		this.password = password;
+		this.lastName = last_name;
+		this.firstName = first_name;
+		this.birth_date = birth_date;
+		this.sexe = sexe;
 	}
 
+	public User(){
+		this.login = null;
+		this.password = null;
+		this.lastName = null;
+		this.firstName = null;
+		this.birth_date = null;
+		this.sexe = (Integer) null;
+	}
+	
 	public String getLogin() {
 		return login;
 	}
@@ -29,20 +42,20 @@ public class User {
 		this.password = password;
 	}
 
-	public String getLast_name() {
-		return last_name;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
-	public String getFirst_name() {
-		return first_name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 	public String getBirth_date() {

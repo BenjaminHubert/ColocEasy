@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <jsp:directive.include file="headers.jsp" />
@@ -10,13 +9,18 @@
 			<div class="col s12 m6 offset-m3">
 				<div class="card">
 					<div class="card-content">
-						<span class="card-title">Inscription</span><br>
+						<span class="card-title">Inscription</span>
+						<div class="error red-text text-darken-1">
+							<c:if test="${requestScope.errorMessage != null}">
+								<c:out value="${requestScope.errorMessage }"/>
+							</c:if>
+						</div><br>
 						<% if (request.getSession().getAttribute("userSession") == null){ %>
 							<form action="signup" method="post">
 								<div class="col s6">
 									<div class="input-field">
 										<input type="text" id="fname_field" name="first_name" required>
-										<label for="fname_field">Prénom</label> 
+										<label for="fname_field">PrÃ©nom</label> 
 									</div>
 								</div>
 								<div class="col s6">
@@ -57,7 +61,7 @@
 							</div>
 						</form>
 						<% } else { %>
-						Bien tenté mais vous êtes déjà inscrit sur le site. :)
+						Bien tentÃ© mais vous Ãªtes dÃ©jÃ  inscrit sur le site. :)
 						<% } %>
 				</div>
 			</div>

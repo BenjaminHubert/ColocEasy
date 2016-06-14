@@ -1,12 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <jsp:directive.include file="headers.jsp" />
 <body>
 	<jsp:directive.include file="navBar.jsp" />
 	<main>
-	<div class="container" style="padding:1%">
+	<div class="container" style="padding:1%;">
 		<div class="slider" style="width:60%; display:inline-block">
 		    <ul class="slides">
 		      <li>

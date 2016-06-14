@@ -1,4 +1,9 @@
 /**
+ * Activer le menu responsive
+ */
+$(".button-collapse").sideNav();
+
+/**
  * Traduction du datepicker
  */
 jQuery.extend( jQuery.fn.pickadate.defaults, {
@@ -27,7 +32,9 @@ $('.datepicker').pickadate({
     formatSubmit: 'yyyy-mm-dd'
  });
 
+/**
+* Activer le slideshow
+*/
 $(document).ready(function(){
-	$(".button-collapse").sideNav();	//Menu latéral responsive
-	$('.slider').slider();				//Slider pour les images
+	$('.slider').slider();
 });

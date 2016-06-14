@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <jsp:directive.include file="headers.jsp" />
@@ -10,7 +9,12 @@
 			<div class="col s12 m6 offset-m3">
 				<div class="card">
 					<div class="card-content">
-						<span class="card-title">Connexion</span><br>
+						<span class="card-title">Connexion</span>
+						<div class="error red-text text-darken-1">
+							<c:if test="${requestScope.errorMessage != null}">
+								<c:out value="${requestScope.errorMessage }"/>
+							</c:if>
+						</div><br>
 						<form action="login" method="post">
 							<div class="input-field">
 								<input type="text" id="login_field" name="login" autocomplete="off">
@@ -20,6 +24,7 @@
 								<input type="password" id="pwd_field" name="password" class="validate">
 								<label for="pwd_field">Mot de passe</label> 
 							</div>
+							
 							<div class="right-align">
 								<a href="signup" id="signin-button" class="btn-large waves-effect waves-light indigo">Inscription</a>
 								<button id="signin-button" class="btn-large waves-effect waves-light deep-orange lighten-1">Connexion</button>
