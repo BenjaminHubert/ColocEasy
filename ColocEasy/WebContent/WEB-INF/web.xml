@@ -16,14 +16,14 @@
     <servlet-name>Profile</servlet-name>
     <url-pattern>/profile</url-pattern>
   </servlet-mapping> -->
-  <servlet>
+<!--   <servlet>
     <servlet-name>Coloc</servlet-name>
     <servlet-class>freres.servlets.Coloc</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Coloc</servlet-name>
     <url-pattern>/coloc</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping> -->
   <servlet>
     <servlet-name>Confirm</servlet-name>
     <servlet-class>freres.servlets.Confirm</servlet-class>
