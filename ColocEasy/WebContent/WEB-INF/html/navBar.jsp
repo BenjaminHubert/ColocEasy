@@ -17,6 +17,7 @@
 			<% if( request.getSession().getAttribute("userSession") == null){ %>
 			<li><a href="login">Se connecter</a></li>
 			<% } else {%>
+			<li><a href="addColoc">Ajouter une coloc</a></li>
 			<li><a href="profile"><c:out value="${sessionScope.userSession.firstName }" /></a></li>
 			<li><a href="logout">Déconnexion</a></li>
 			<% } %>
