@@ -45,13 +45,13 @@
 		        </div>
 		        <div class="input-field col s12 m4">
 		            <i class="material-icons prefix">vpn_key</i>
-		            <input id="password" name="password_new" type="password" class="validate" required value="">
-		            <label for="password">Nouveau mot de passe *</label>
+		            <input id="password" name="password_new" type="password" class="validate" value="">
+		            <label for="password">Nouveau mot de passe</label>
 		        </div>
 		        <div class="input-field col s12 m4">
 		            <i class="material-icons prefix">vpn_key</i>
-		            <input id="password_confirmation" name="password_confirmation" type="password" class="validate" required value="">
-		            <label for="password_confirmation" data-error="Le mot de passe n'est pas identique">Confirmation mot de passe *</label>
+		            <input id="password_confirmation" name="password_confirmation" type="password" class="validate" value="">
+		            <label for="password_confirmation" data-error="Le mot de passe n'est pas identique">Confirmation mot de passe</label>
 		        </div>
 				<button class="waves-effect waves-light btn right deep-orange lighten-1">Enregistrer</button>
 			</form>

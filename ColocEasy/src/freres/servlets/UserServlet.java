@@ -18,7 +18,7 @@ import freres.models.UserManagerDB;
 @WebServlet(
 		name = "user-servlet", 
 		description = "Servlet handling user login", 
-		urlPatterns = { "/login", "/logout" , "/signup", "/profile" /*, "/list"*/ })
+		urlPatterns = { "/login", "/logout" , "/signup", "/profile" /*, "/userList"*/ })
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String USER_SESSION = "userSession";
@@ -111,29 +111,28 @@ public class UserServlet extends HttpServlet {
 		if(request.getSession().getAttribute(this.USER_SESSION) != null) {
 			User u = this.userManager.getUser(request.getSession().getAttribute(this.USER_SESSION).toString());
 			request.setAttribute("user", u);
-		}
 
-		final String birth_date = request.getParameter("birthday_submit");
-		final String login = request.getParameter("email");
-		final String first_name = request.getParameter("first_name");
-		final String last_name = request.getParameter("last_name");
-		final String id = request.getParameter("id");
-		final String sexe = request.getParameter("sexe");
-		final String password = request.getParameter("password");
-		final String confirm = request.getParameter("password_confirmation");
-		final String new_pass = request.getParameter("password_new");
-		
-		if(id != null) {
-			if(new_pass.equals(confirm) && password.equals(((User)request.getSession().getAttribute(this.USER_SESSION)).getPassword())){
-				if(this.userManager.editUser(id, login, new_pass, last_name, first_name, birth_date, sexe)){
-					//TODO: Modifier la session après modif de l'utilisateur
-					request.getSession().setAttribute(this.USER_SESSION, this.userManager.getUser(Integer.parseInt(id)));
-					request.setAttribute("success", "The user "+login+" has been updated.");
-					System.out.println("The user "+login+" has been updated.");
+			final String birth_date = request.getParameter("birthday_submit");
+			final String login = request.getParameter("email");
+			final String first_name = request.getParameter("first_name");
+			final String last_name = request.getParameter("last_name");
+			final String id = request.getParameter("id");
+			final String sexe = request.getParameter("sexe");
+			final String password = request.getParameter("password");
+			final String confirm = request.getParameter("password_confirmation") != "" ? request.getParameter("password_new"): u.getPassword();
+			final String new_pass = request.getParameter("password_new") != "" ? request.getParameter("password_new"): u.getPassword();
+			
+			if(id != null) {
+				if(new_pass.equals(confirm) && password.equals(((User)request.getSession().getAttribute(this.USER_SESSION)).getPassword())){
+					if(this.userManager.editUser(id, login, new_pass, last_name, first_name, birth_date, sexe)){
+						request.getSession().setAttribute(this.USER_SESSION, this.userManager.getUser(Integer.parseInt(id)));
+						request.setAttribute("success", "The user "+login+" has been updated.");
+						System.out.println("The user "+login+" has been updated.");
+					}
+				} else {
+					 request.setAttribute("errorMessage", "The passwords do not match.");
+					 System.out.println("The passwords do not match.");
 				}
-			} else {
-				 request.setAttribute("errorMessage", "The passwords do not match.");
-				 System.out.println("The passwords do not match.");
 			}
 		}
 		request.setAttribute("action", "profile");
