@@ -23,12 +23,13 @@ public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String USER_SESSION = "userSession";
 
-	private static final String LOGIN = "login"; 
-	private static final String PWD = "password"; 
-	private static final String NEWPWD = "password_new"; 
-	private static final String NOMATCH = "The passwords do not match."; 
-	private static final String ERRORMESSAGE = "error_message"; 
-	private static final String ACTION = "action"; 
+	private final String LOGIN = "login"; 
+	private final String PWD = "password"; 
+	private final String NEWPWD = "password_new"; 
+	private final String NOMATCH = "The passwords do not match."; 
+	private final String ERRORMESSAGE = "error_message"; 
+	private final String ACTION = "action"; 
+	private final String SUCCESS = "success"; 
 	
 	private IUserManager userManager = new UserManagerDB();
 
@@ -101,8 +102,8 @@ public class UserServlet extends HttpServlet {
 					 System.out.println(request.getAttribute(this.ERRORMESSAGE));
 				 } else {
 					 this.userManager.createUser(login, password, lastName, firstName, birthDate, sexe);
-					 request.setAttribute("success", "User succesfully created");
-					 System.out.println(request.getAttribute("success"));
+					 request.setAttribute(this.SUCCESS, "User succesfully created");
+					 System.out.println(request.getAttribute(this.SUCCESS));
 					 response.sendRedirect("confirm");
 					 return;
 				 }
@@ -133,7 +134,7 @@ public class UserServlet extends HttpServlet {
 				if(newPass.equals(confirm) && password.equals(((User)request.getSession().getAttribute(this.USER_SESSION)).getPassword())){
 					if(this.userManager.editUser(id, login, newPass, lastName, firstName, birthDate, sexe)){
 						request.getSession().setAttribute(this.USER_SESSION, this.userManager.getUser(Integer.parseInt(id)));
-						request.setAttribute("success", "The user "+login+" has been updated.");
+						request.setAttribute(this.SUCCESS, "The user "+login+" has been updated.");
 						System.out.println("The user "+login+" has been updated.");
 					}
 				} else {
