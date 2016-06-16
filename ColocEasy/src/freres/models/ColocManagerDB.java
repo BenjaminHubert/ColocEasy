@@ -47,16 +47,16 @@ public class ColocManagerDB implements IColocManager {
 		}		
 		return result == 1;
 	}
-
-	@Override
-	public Coloc getColoc(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Coloc> getAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//
+//	@Override
+//	public Coloc getColoc(Integer id) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public List<Coloc> getAll() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 }

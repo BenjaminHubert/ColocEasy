@@ -41,11 +41,11 @@ public class ColocServlet extends HttpServlet {
 
 	private void coloc(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		final Integer id = request.getParameter("id") != null ? Integer.parseInt(request.getParameter("id")) :null;
-		if(id!=null){
-			this.colocManager.getColoc(id);
-		} else {
-			this.colocManager.getAll();
-		}
+//		if(id!=null){
+//			this.colocManager.getColoc(id);
+//		} else {
+//			this.colocManager.getAll();
+//		}
 		request.setAttribute("action", "coloc");
 		request.getRequestDispatcher("/WEB-INF/html/coloc.jsp").forward(request, response);
 	}

@@ -86,11 +86,11 @@ public class UserManagerDB implements IUserManager {
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				Integer id = rs.getInt("id");
-				String loginU = rs.getString(this.LOGIN);
-				String password = rs.getString(this.PWD);
-				String lastName = rs.getString(this.LASTNAME);
-				String firstName = rs.getString(this.FIRSTNAME);
-				String birthDate = rs.getString(this.BDAY);
+				String loginU = rs.getString(UserManagerDB.LOGIN);
+				String password = rs.getString(UserManagerDB.PWD);
+				String lastName = rs.getString(UserManagerDB.LASTNAME);
+				String firstName = rs.getString(UserManagerDB.FIRSTNAME);
+				String birthDate = rs.getString(UserManagerDB.BDAY);
 				Integer sexe = rs.getInt("sexe");
 				user = new User(id, loginU, password, lastName, firstName, birthDate, sexe);
 			}
@@ -113,11 +113,11 @@ public class UserManagerDB implements IUserManager {
 			rs = stmt.executeQuery(userSQL);
 			while(rs.next()){
 				Integer id = rs.getInt("id");
-				String loginU = rs.getString(this.LOGIN);
-				String password = rs.getString(this.PWD);
-				String lastName = rs.getString(this.LASTNAME);
-				String firstName = rs.getString(this.FIRSTNAME);
-				String birthDate = rs.getString(this.BDAY);
+				String loginU = rs.getString(UserManagerDB.LOGIN);
+				String password = rs.getString(UserManagerDB.PWD);
+				String lastName = rs.getString(UserManagerDB.LASTNAME);
+				String firstName = rs.getString(UserManagerDB.FIRSTNAME);
+				String birthDate = rs.getString(UserManagerDB.BDAY);
 				Integer sexe = rs.getInt("sexe");
 				User newUser = new User(id, loginU, password, lastName, firstName, birthDate, sexe);
 				userList.add(newUser);
@@ -191,11 +191,11 @@ public class UserManagerDB implements IUserManager {
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				Integer idU = rs.getInt("id");
-				String loginU = rs.getString(this.LOGIN);
-				String password = rs.getString(this.PWD);
-				String lastName = rs.getString(this.LASTNAME);
-				String firstName = rs.getString(this.FIRSTNAME);
-				String birthDate = rs.getString(this.BDAY);
+				String loginU = rs.getString(UserManagerDB.LOGIN);
+				String password = rs.getString(UserManagerDB.PWD);
+				String lastName = rs.getString(UserManagerDB.LASTNAME);
+				String firstName = rs.getString(UserManagerDB.FIRSTNAME);
+				String birthDate = rs.getString(UserManagerDB.BDAY);
 				Integer sexe = rs.getInt("sexe");
 				user = new User(idU, loginU, password, lastName, firstName, birthDate, sexe);
 			}
