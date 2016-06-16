@@ -4,8 +4,15 @@
 <nav class="indigo darken-2" role="navigation">
 	<div class="nav-wrapper container">
 		<a id="logo-container" href="index" class="brand-logo white-text">ColocEasy</a>
+		<!-- Liste déroulante -->
+		<ul id="dropdown1" class="dropdown-content">
+			<li><a href="addColoc">Ajouter une coloc</a></li>
+			<li><a href="profile">Profil</a></li>
+			<li class="divider"></li>
+			<li><a href="logout">Déconnexion</a></li>
+		</ul>		
 		<ul class="right hide-on-med-and-down">
-			<li>
+		<!-- 	<li>
 				<form>
 					<div class="input-field">
 						<input id="search" type="search" required placeholder="Rechercher"> <label
@@ -13,16 +20,19 @@
 							class="material-icons">close</i>
 					</div>
 				</form>
-			</li>
-			<% if( request.getSession().getAttribute("userSession") == null){ %>
-			<li><a href="login">Se connecter</a></li>
-			<% } else {%>
-			<li><a href="addColoc">Ajouter une coloc</a></li>
-			<li><a href="profile"><c:out value="${sessionScope.userSession.firstName }" /></a></li>
-			<li><a href="logout">Déconnexion</a></li>
-			<% } %>
+			</li> -->
+			
+			<c:choose>
+				<c:when test="${sessionScope.userSession != null }">
+					<li><a class="dropdown-button" href="#!" data-activates="dropdown1">Options<i class="material-icons right">arrow_drop_down</i></a></li>
+				</c:when>
+				<c:otherwise>
+					<li><a href="login">Se connecter</a></li>
+				</c:otherwise>
+			</c:choose>
 		</ul>
 
+		<!-- Menu mobile -->
 		<ul id="nav-mobile" class="side-nav">
 			<li>
 				<form>
@@ -32,14 +42,17 @@
 							class="material-icons">close</i>
 					</div>
 				</form>
+				<c:choose>
+					<c:when test="${sessionScope.userSession != null }">
+						<li><a href="addColoc">Ajouter une coloc</a></li>
+						<li><a href="profile">Profil</a></li>
+						<li><a href="logout">Déconnexion</a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="login">Se connecter</a></li>
+					</c:otherwise>
+				</c:choose>
 			</li>
-			<% if( request.getSession().getAttribute("userSession") == null){ %>
-			<li><a href="login">Se connecter</a></li>
-			<% } else {%>
-			<li>Bonjour <% request.getSession().getAttribute("userSession"); %></li>
-			<li><a href="logout">Déconnexion</a></li>
-			<% } %>
-			<li><a href="profile">Profil</a></li>
 		</ul>
 		<a href="#" data-activates="nav-mobile" class="button-collapse"><i
 			class="material-icons">menu</i></a>

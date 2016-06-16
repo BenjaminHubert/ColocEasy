@@ -7,7 +7,8 @@
 	<main> 
 	<div class="container">
 		<div class="row">
-		<% if(request.getSession().getAttribute("userSession")!=null) { %>
+		<c:choose>
+			<c:when test="${sessionScope.userSession != null }">
 			<h3>Mon compte</h3>
 			<br>
 			<form action="profile" method="post">
@@ -55,13 +56,13 @@
 		        </div>
 				<button class="waves-effect waves-light btn right deep-orange lighten-1">Enregistrer</button>
 			</form>
+			</c:when>
+			<c:otherwise>
+				Vous devez être connecté pour accéder à cette page. 
+				<a href="login" class="btn-large waves-effect waves-light deep-orange lighten-1">Connexion</a>
+			</c:otherwise>
+		</c:choose>
 		</div>
-		<%} else {%>
-		<div class="row">
-			Vous devez être connecté pour accéder à cette page. 
-			<a href="login" class="btn-large waves-effect waves-light deep-orange lighten-1">Connexion</a>
-		</div>
-		<% } %>
 	</div>
 	</main>
 	<jsp:directive.include file="footer.jsp" />
