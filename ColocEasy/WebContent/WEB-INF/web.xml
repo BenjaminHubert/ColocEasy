@@ -1,35 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
-<!--   <servlet>
-    <servlet-name>Index</servlet-name>
-    <servlet-class>freres.servlets.Index</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Index</servlet-name>
-    <url-pattern>/index</url-pattern>
-  </servlet-mapping> -->
-<!--   <servlet>
-    <servlet-name>Profile</servlet-name>
-    <servlet-class>freres.servlets.Profile</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Profile</servlet-name>
-    <url-pattern>/profile</url-pattern>
-  </servlet-mapping> -->
-<!--   <servlet>
-    <servlet-name>Coloc</servlet-name>
-    <servlet-class>freres.servlets.Coloc</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Coloc</servlet-name>
-    <url-pattern>/coloc</url-pattern>
-  </servlet-mapping> -->
-  <servlet>
-    <servlet-name>Confirm</servlet-name>
-    <servlet-class>freres.servlets.Confirm</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Confirm</servlet-name>
-    <url-pattern>/confirm</url-pattern>
-  </servlet-mapping>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1">
+	<error-page>
+		<error-code>404</error-code>
+		<location>/error/404.html</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/error/500.html</location>
+	</error-page>
 </web-app>
