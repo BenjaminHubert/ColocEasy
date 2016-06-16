@@ -10,50 +10,55 @@
 				<c:choose>
 					<c:when test="${sessionScope.userSession != null }">
 						<h3>Ajouter une colocation</h3>
-						<form>
+						<form action="" method="post">
 							<div class="row">
 								<div class="input-field col s12 m6">
 						            <i class="material-icons prefix">label</i>
-						            <input id="title" name="title" type="text" class="validate" required>
+						            <input id="title" name="title" type="text" required>
 						            <label for="title">Titre de l'annonce *</label>
 						        </div>
 						        <div class="file-field input-field col s12 m6">
 						        	<div class="btn">
-							        	<span>File</span>
+							        	<span>Images</span>
 							        	<input type="file" multiple>
 						        	</div>
 						        	<div class="file-path-wrapper">
-						        		<input class="file-path validate" type="text" placeholder="Choisissez une ou plusieurs images">
+						        		<input class="file-path" type="text" placeholder="Choisissez une ou plusieurs images">
 						        	</div>
+						        </div>
+					        </div>
+					        <div class="row">
+					        	<div class="input-field col s12">
+						            <i class="material-icons prefix">reorder</i>
+						            <textarea id="description" name="description" class="materialize-textarea" required></textarea>
+						            <label for="description">Description *</label>
 						        </div>
 					        </div>
 					        <div class="row">
 								<div class="input-field col s12 m3">
 						            <i class="material-icons prefix">room</i>
-						            <input id="title" name="title" type="text" class="validate" required>
-						            <label for="title">Arrondissement *</label>
+						            <input id="district" name="district" type="text" required>
+						            <label for="district">Arrondissement *</label>
 						        </div>
 								<div class="input-field col s12 m3">
 						            <i class="material-icons prefix">info</i>
-						            <input id="title" name="title" type="text" class="validate" required>
-						            <label for="title">Surface *</label>
+						            <input id="surface" name="surface" type="text"  required>
+						            <label for="surface">Surface (en m²)*</label>
 						        </div>
 								<div class="input-field col s12 m3">
 						            <i class="material-icons prefix">supervisor_account</i>
-						            <input id="title" name="title" type="text" class="validate" required>
-						            <label for="title">Capacité (en personnes)*</label>
+						            <input id="capacity" name="capacity" type="text"  required>
+						            <label for="capacity">Capacité (en personnes)*</label>
 						        </div>
 								<div class="input-field col s12 m3">
 						            <i class="material-icons prefix">payment</i>
-						            <input id="title" name="title" type="text" class="validate" required>
-						            <label for="title">Loyer *</label>
+						            <input id="rooms" name="rooms" type="text" required>
+						            <label for="rooms">Nombre de pièces *</label>
 						        </div>
-					        </div>
-					        <div class="row">
-					        	<div class="input-field col s12 m6">
-						            <i class="material-icons prefix">reorder</i>
-						            <textarea id="description" name="description" class="materialize-textarea" required></textarea>
-						            <label for="description">Description *</label>
+								<div class="input-field col s12 m3">
+						            <i class="material-icons prefix">payment</i>
+						            <input id="rent" name="rent" type="text" required>
+						            <label for="rent">Loyer (en €/mois)*</label>
 						        </div>
 					        </div>
 							<div class="row">

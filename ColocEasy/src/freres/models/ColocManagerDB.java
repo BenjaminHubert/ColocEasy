@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 public class ColocManagerDB implements IColocManager {
 	private Connection connection;
@@ -25,12 +26,12 @@ public class ColocManagerDB implements IColocManager {
 	}
 
 	@Override
-	public boolean createColoc(Integer id, Integer district, Integer surface, Integer capacity, Integer rooms, String titre, String description, Float rent, Boolean isEnabled) {
+	public boolean createColoc(Integer district, Integer surface, Integer capacity, Integer rooms, String titre, String description, Float rent) {
 		PreparedStatement stmt = null;
 		int result = 0;
 		try {
 			
-			String userSQL = "INSERT INTO coloc(district, surface, capacity, rooms, titre, description, rent, is_enabled) VALUES(?, ?, ?, ?, ?, ? );";
+			String userSQL = "INSERT INTO coloc(district, surface, capacity, rooms, titre, description, rent, is_enabled) VALUES(?, ?, ?, ?, ?, ?, ?, true );";
 			stmt = this.connection.prepareStatement(userSQL);
 			
 			stmt.setInt(1, district);
@@ -39,8 +40,7 @@ public class ColocManagerDB implements IColocManager {
 			stmt.setInt(4, rooms);
 			stmt.setString(5, titre);
 			stmt.setString(6, description);
-			stmt.setString(7, description);
-			stmt.setBoolean(8, isEnabled);
+			stmt.setFloat(7, rent);
 			
 			result = stmt.executeUpdate();
 			stmt.close();
@@ -48,5 +48,17 @@ public class ColocManagerDB implements IColocManager {
 			e.printStackTrace();
 		}		
 		return result == 1;
+	}
+
+	@Override
+	public Coloc getColoc(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Coloc> getAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
