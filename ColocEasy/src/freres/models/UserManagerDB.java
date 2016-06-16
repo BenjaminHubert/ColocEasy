@@ -45,7 +45,7 @@ public class UserManagerDB implements IUserManager {
 	}
 
 	@Override
-	public boolean createUser(String login, String password, String last_name, String first_name, String birth_date, String sexe) {
+	public boolean createUser(String login, String password, String lastName, String firstName, String birthDate, String sexe) {
 		PreparedStatement stmt = null;
 		int result = 0;
 		try {
@@ -55,9 +55,9 @@ public class UserManagerDB implements IUserManager {
 			
 			stmt.setString(1, login);
 			stmt.setString(2, password);
-			stmt.setString(3, last_name);
-			stmt.setString(4, first_name);
-			stmt.setString(5, birth_date);
+			stmt.setString(3, lastName);
+			stmt.setString(4, firstName);
+			stmt.setString(5, birthDate);
 			stmt.setString(6, sexe);
 			
 			result = stmt.executeUpdate();
@@ -149,7 +149,7 @@ public class UserManagerDB implements IUserManager {
 	}
 
 	@Override
-	public boolean editUser(String id, String login, String password, String last_name, String first_name, String birth_date, String sexe) {
+	public boolean editUser(String id, String login, String password, String lastName, String firstName, String birthDate, String sexe) {
 		PreparedStatement stmt = null;
 		int result = 0;
 		try {
@@ -159,9 +159,9 @@ public class UserManagerDB implements IUserManager {
 			
 			stmt.setString(1, login);
 			stmt.setString(2, password);
-			stmt.setString(3, last_name);
-			stmt.setString(4, first_name);
-			stmt.setString(5, birth_date);
+			stmt.setString(3, lastName);
+			stmt.setString(4, firstName);
+			stmt.setString(5, birthDate);
 			stmt.setString(6, sexe);
 			stmt.setString(7, id);
 			

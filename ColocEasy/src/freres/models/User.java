@@ -6,16 +6,16 @@ public class User {
 	private String password;
 	private String lastName;
 	private String firstName;
-	private String birth_date;
+	private String birthDate;
 	private Integer sexe;
 	
-	public User(Integer id, String login, String password, String last_name, String first_name, String birth_date, Integer sexe) {
+	public User(Integer id, String login, String password, String lastName, String firstName, String birthDate, Integer sexe) {
 		this.id = id;
 		this.login = login;
 		this.password = password;
-		this.lastName = last_name;
-		this.firstName = first_name;
-		this.birth_date = birth_date;
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.birthDate = birthDate;
 		this.sexe = sexe;
 	}
 
@@ -25,7 +25,7 @@ public class User {
 		this.password = null;
 		this.lastName = null;
 		this.firstName = null;
-		this.birth_date = null;
+		this.birthDate = null;
 		this.sexe = null;
 	}
 	
@@ -70,11 +70,11 @@ public class User {
 	}
 
 	public String getBirth_date() {
-		return birth_date;
+		return birthDate;
 	}
 
 	public void setBirth_date(String birth_date) {
-		this.birth_date = birth_date;
+		this.birthDate = birth_date;
 	}
 
 	public Integer getSexe(){
