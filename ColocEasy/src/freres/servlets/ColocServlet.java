@@ -40,12 +40,29 @@ public class ColocServlet extends HttpServlet {
 	}
 
 	private void coloc(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
+		final Integer id = request.getParameter("id") != null ? Integer.parseInt(request.getParameter("id")) :null;
+		if(id!=null){
+			this.colocManager.getColoc(id);
+		} else {
+			this.colocManager.getAll();
+		}
+		request.setAttribute("action", "coloc");
 		request.getRequestDispatcher("/WEB-INF/html/coloc.jsp").forward(request, response);
 	}
 	
 	private void add(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
+		final Integer capacity = request.getParameter("capacity") != null ? Integer.parseInt(request.getParameter("capacity")) :null;
+		final String description = request.getParameter("description");
+		final Integer district = request.getParameter("district") != null ? Integer.parseInt(request.getParameter("district")) : null;
+		final Float rent = request.getParameter("rent") != null ? Float.parseFloat(request.getParameter("rent")) : null;
+		final Integer rooms = request.getParameter("rooms") != null ? Integer.parseInt(request.getParameter("rooms")) : null;
+		final Integer surface = request.getParameter("surface") != null ? Integer.parseInt(request.getParameter("surface")) : null;
+		final String title = request.getParameter("title");
+		
+		if(capacity != null && description != null && district != null && rent != null && rooms!= null && surface!= null && title!= null){
+			this.colocManager.createColoc(district, surface, capacity, rooms, title, description, rent);
+		}
+		request.setAttribute("action", "add");
 		request.getRequestDispatcher("/WEB-INF/html/addColoc.jsp").forward(request, response);
 	}
 }

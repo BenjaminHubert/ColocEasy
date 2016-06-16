@@ -18,7 +18,7 @@ import freres.models.UserManagerDB;
 @WebServlet(
 		name = "user-servlet", 
 		description = "Servlet handling user login", 
-		urlPatterns = { "/login", "/logout" , "/signup", "/profile" /*, "/userList"*/ })
+		urlPatterns = { "/login", "/logout" , "/signup", "/profile", "/userConfirm" /*, "/userList"*/ })
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String USER_SESSION = "userSession";
@@ -36,8 +36,7 @@ public class UserServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		final String uri = request.getRequestURI();
 		if (uri.contains("/login")) {
 			this.login(request, response);
@@ -47,6 +46,8 @@ public class UserServlet extends HttpServlet {
 			this.create(request, response);
 		} else if(uri.contains("/profile")) {
 			this.profile(request, response);
+		} else if (uri.contains("/userConfirm")) {
+			this.getServletContext().getRequestDispatcher("/WEB-INF/html/confirm.jsp").forward(request, response);
 		}
 	}
 
@@ -54,8 +55,7 @@ public class UserServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
 
