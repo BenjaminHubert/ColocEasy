@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>ColocEasy</title>
+	
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" href="css/materialize.css" media="screen,projection">
+	<link type="text/css" rel="stylesheet" href="css/site.css" media="screen,projection">
+  	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  	<style type="text/css">
+		.error{
+		    width: 100%;
+		    text-align: center;
+		    color: #ffffff;
+		    text-shadow: 1px 0px 3px #000;
+		}
+		.row {
+			margin-bottom: 0px;;
+		}
+  	</style>
+</head>
+<body>
+	<nav class="indigo darken-2" role="navigation">
+		<div class="nav-wrapper container">
+			<a id="logo-container" href="index" class="brand-logo white-text">ColocEasy</a>
+			<ul class="right hide-on-med-and-down">
+				<li>
+					<form>
+						<div class="input-field">
+							<input id="search" type="search" required placeholder="Rechercher"> <label
+								for="search"><i class="material-icons">search</i></label> <i
+								class="material-icons">close</i>
+						</div>
+					</form>
+				</li>
+			</ul>
+	
+			<ul id="nav-mobile" class="side-nav">
+				<li>
+					<form>
+						<div class="input-field">
+							<input id="search" type="search" required placeholder="Rechercher"> <label
+								for="search" class="indigo-text"><i class="material-icons">search</i></label> <i
+								class="material-icons">close</i>
+						</div>
+					</form>
+				</li>
+			</ul>
+			<a href="#" data-activates="nav-mobile" class="button-collapse"><i
+				class="material-icons">menu</i></a>
+		</div>
+	</nav>
+	<main> 
+		<div class="main valign-wrapper row">
+		    <h4 class="error col s12">Erreur 500 - Erreur interne du serveur</h4>
+		</div>
+	</main>
+	<footer class="page-footer indigo darken-2">
+		<div class="container">
+			<div class="row">
+				<div class="col l6 s12">
+					<h5 class="white-text">A propos</h5>
+					<p class="grey-text text-lighten-4">Nous sommes une équipe
+						d'étudiants qui travaillons sur ce projet comme si c'était un job à
+						plein temps. Un don aiderait grandement à la maintenance et au
+						développement du projet et nous vous serions très reconnaissant.</p>
+				</div>
+				<div class="col l4 offset-l2 s12">
+					<h5 class="white-text">Lorem Ipsum</h5>
+					<ul>
+						<li><a class="grey-text text-lighten-3" href="#!">Lorem 1</a></li>
+						<li><a class="grey-text text-lighten-3" href="#!">Lorem 2</a></li>
+						<li><a class="grey-text text-lighten-3" href="#!">Lorem 3</a></li>
+						<li><a class="grey-text text-lighten-3" href="#!">Lorem 4</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="footer-copyright">
+			<div class="container">
+				Développé par <a class="deep-orange-text text-lighten-1"
+					href="https://github.com/axeldelannay">Axel Delannay</a>, <a
+					class="deep-orange-text text-lighten-1"
+					href="https://github.com/bertrandfreylin">Bertrand Freylin</a>, <a
+					class="deep-orange-text text-lighten-1"
+					href="https://github.com/benjaminhubert">Benjamin Hubert</a>, <a
+					class="deep-orange-text text-lighten-1"
+					href="https://github.com/thibaultlenormand">Thibault Lenormand</a>
+				et <a class="deep-orange-text text-lighten-1"
+					href="https://github.com/younessadmi">Younes Sadmi</a>
+			</div>
+		</div>
+	</footer>
+	<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="js/materialize.min.js"></script>
+	<script>
+	$(function(){
+	    var api = "http://yesno.wtf/api?force=no"
+	    $.getJSON(api)
+	    .done(
+	        function(data){
+	            $(".main")
+	            .css({
+	                "background-image": "url("+data.image+")",
+	                "position" :"relative",
+	                "height": "700px",
+	                "width": "100%",
+	                "z-index": 0,
+	                "background-position": "center center",
+	                "background-size": "cover"
+	            });
+	        }
+	    );
+	});
+	</script>
+</body>
+</html>
