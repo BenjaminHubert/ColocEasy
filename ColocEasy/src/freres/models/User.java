@@ -69,12 +69,12 @@ public class User {
 		this.firstName = firstName;
 	}
 
-	public String getBirth_date() {
+	public String getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirth_date(String birth_date) {
-		this.birthDate = birth_date;
+	public void setBirthDate(String birthDate) {
+		this.birthDate = birthDate;
 	}
 
 	public Integer getSexe(){

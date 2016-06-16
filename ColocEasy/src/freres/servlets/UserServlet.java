@@ -82,9 +82,9 @@ public class UserServlet extends HttpServlet {
 		 final String login = request.getParameter("login");
 		 final String password = request.getParameter("password");
 		 final String confirm = request.getParameter("confirm");
-		 final String last_name = request.getParameter("last_name");
-		 final String first_name = request.getParameter("first_name");
-		 final String birth_date = request.getParameter("birth_date_submit");
+		 final String lastName = request.getParameter("last_name");
+		 final String firstName = request.getParameter("first_name");
+		 final String birthDate = request.getParameter("birth_date_submit");
 		 final String sexe = request.getParameter("sexe");
 		
 		 if (login != null && password != null) {
@@ -93,7 +93,7 @@ public class UserServlet extends HttpServlet {
 					 request.setAttribute("errorMessage", "User already exists. Please chose another");
 					 System.out.println(request.getAttribute("errorMessage"));
 				 } else {
-					 this.userManager.createUser(login, password, last_name, first_name, birth_date, sexe);
+					 this.userManager.createUser(login, password, lastName, firstName, birthDate, sexe);
 					 request.setAttribute("success", "User succesfully created");
 					 System.out.println(request.getAttribute("success"));
 					 response.sendRedirect("confirm");
@@ -112,19 +112,19 @@ public class UserServlet extends HttpServlet {
 			User u = this.userManager.getUser(request.getSession().getAttribute(this.USER_SESSION).toString());
 			request.setAttribute("user", u);
 
-			final String birth_date = request.getParameter("birthday_submit");
+			final String birthDate = request.getParameter("birthday_submit");
 			final String login = request.getParameter("email");
-			final String first_name = request.getParameter("first_name");
-			final String last_name = request.getParameter("last_name");
+			final String firstName = request.getParameter("first_name");
+			final String lastName = request.getParameter("last_name");
 			final String id = request.getParameter("id");
 			final String sexe = request.getParameter("sexe");
 			final String password = request.getParameter("password");
 			final String confirm = request.getParameter("password_confirmation") != "" ? request.getParameter("password_new"): u.getPassword();
-			final String new_pass = request.getParameter("password_new") != "" ? request.getParameter("password_new"): u.getPassword();
+			final String newPass = request.getParameter("password_new") != "" ? request.getParameter("password_new"): u.getPassword();
 			
 			if(id != null) {
-				if(new_pass.equals(confirm) && password.equals(((User)request.getSession().getAttribute(this.USER_SESSION)).getPassword())){
-					if(this.userManager.editUser(id, login, new_pass, last_name, first_name, birth_date, sexe)){
+				if(newPass.equals(confirm) && password.equals(((User)request.getSession().getAttribute(this.USER_SESSION)).getPassword())){
+					if(this.userManager.editUser(id, login, newPass, lastName, firstName, birthDate, sexe)){
 						request.getSession().setAttribute(this.USER_SESSION, this.userManager.getUser(Integer.parseInt(id)));
 						request.setAttribute("success", "The user "+login+" has been updated.");
 						System.out.println("The user "+login+" has been updated.");
