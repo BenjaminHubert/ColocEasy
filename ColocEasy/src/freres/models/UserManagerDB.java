@@ -21,10 +21,9 @@ public class UserManagerDB implements IUserManager {
 	}
 	
 	public Connection getConnection() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-	  Connection connection =  null;
 	  String url = "jdbc:mysql://localhost:3306/coloceasy"; 
 	  Class.forName("com.mysql.jdbc.Driver").newInstance();
-	  connection = DriverManager.getConnection(url,"root","root");   
+	  Connection connection = DriverManager.getConnection(url,"root","root");   
 	  return connection;
 	}
 	
