@@ -23,6 +23,13 @@ public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String USER_SESSION = "userSession";
 
+	private static final String LOGIN = "login"; 
+	private static final String PWD = "password"; 
+	private static final String NEWPWD = "password_new"; 
+	private static final String NOMATCH = "The passwords do not match."; 
+	private static final String ERRORMESSAGE = "error_message"; 
+	private static final String ACTION = "action"; 
+	
 	private IUserManager userManager = new UserManagerDB();
 
 	/**
@@ -60,8 +67,8 @@ public class UserServlet extends HttpServlet {
 	}
 
 	private void login(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		final String login = request.getParameter("login");
-		final String password = request.getParameter("password");
+		final String login = request.getParameter(this.LOGIN);
+		final String password = request.getParameter(this.PWD);
 
 		if (login == null || password == null) {
 			System.out.println("Navigating to login.");
@@ -71,16 +78,16 @@ public class UserServlet extends HttpServlet {
 				response.sendRedirect("index");
 				return;
 			}  else {
-			request.setAttribute("errorMessage", "Login ou mot de passe incorrect");
+			request.setAttribute(this.ERRORMESSAGE, "Login ou mot de passe incorrect");
 			System.out.println("Login failed");
 		}
-		request.setAttribute("action", "login");
+		request.setAttribute(this.ACTION, this.LOGIN);
 		request.getRequestDispatcher("/WEB-INF/html/login.jsp").forward(request, response);
 	}
 
 	private void create(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		 final String login = request.getParameter("login");
-		 final String password = request.getParameter("password");
+		 final String login = request.getParameter(this.LOGIN);
+		 final String password = request.getParameter(this.PWD);
 		 final String confirm = request.getParameter("confirm");
 		 final String lastName = request.getParameter("last_name");
 		 final String firstName = request.getParameter("first_name");
@@ -90,8 +97,8 @@ public class UserServlet extends HttpServlet {
 		 if (login != null && password != null) {
 			 if(password.equals(confirm)){
 				 if (this.userManager.checkLogin(login)) {
-					 request.setAttribute("errorMessage", "User already exists. Please chose another");
-					 System.out.println(request.getAttribute("errorMessage"));
+					 request.setAttribute(this.ERRORMESSAGE, "User already exists. Please chose another");
+					 System.out.println(request.getAttribute(this.ERRORMESSAGE));
 				 } else {
 					 this.userManager.createUser(login, password, lastName, firstName, birthDate, sexe);
 					 request.setAttribute("success", "User succesfully created");
@@ -100,10 +107,10 @@ public class UserServlet extends HttpServlet {
 					 return;
 				 }
 			 }
-			 request.setAttribute("errorMessage", "The passwords do not match.");
-			 System.out.println("The passwords do not match.");
+			 request.setAttribute(this.ERRORMESSAGE, this.NOMATCH);
+			 System.out.println(this.NOMATCH);
 		 }
-		 request.setAttribute("action", "create");
+		 request.setAttribute(this.ACTION, "create");
 		 request.getRequestDispatcher("/WEB-INF/html/signup.jsp").forward(request, response);
 	 }
 	 
@@ -118,9 +125,9 @@ public class UserServlet extends HttpServlet {
 			final String lastName = request.getParameter("last_name");
 			final String id = request.getParameter("id");
 			final String sexe = request.getParameter("sexe");
-			final String password = request.getParameter("password");
-			final String confirm = request.getParameter("password_confirmation") != "" ? request.getParameter("password_new"): u.getPassword();
-			final String newPass = request.getParameter("password_new") != "" ? request.getParameter("password_new"): u.getPassword();
+			final String password = request.getParameter(this.PWD);
+			final String confirm = request.getParameter("password_confirmation") != "" ? request.getParameter(this.NEWPWD): u.getPassword();
+			final String newPass = request.getParameter(this.NEWPWD) != "" ? request.getParameter(this.NEWPWD): u.getPassword();
 			
 			if(id != null) {
 				if(newPass.equals(confirm) && password.equals(((User)request.getSession().getAttribute(this.USER_SESSION)).getPassword())){
@@ -130,12 +137,12 @@ public class UserServlet extends HttpServlet {
 						System.out.println("The user "+login+" has been updated.");
 					}
 				} else {
-					 request.setAttribute("errorMessage", "The passwords do not match.");
-					 System.out.println("The passwords do not match.");
+					 request.setAttribute(this.ERRORMESSAGE, this.NOMATCH);
+					 System.out.println(this.NOMATCH);
 				}
 			}
 		}
-		request.setAttribute("action", "profile");
+		request.setAttribute(this.ACTION, "profile");
 		request.getRequestDispatcher("/WEB-INF/html/profile.jsp").forward(request, response);
 	}
 	 

@@ -11,6 +11,12 @@ import java.util.List;
 
 public class UserManagerDB implements IUserManager {
 	private Connection connection;
+
+	private static final String LOGIN = "login"; 
+	private static final String PWD = "password"; 
+	private static final String LASTNAME = "last_name"; 
+	private static final String FIRSTNAME = "first_name"; 
+	private static final String BDAY = "birth_date";
 	
 	public UserManagerDB() {
 		try {
@@ -23,8 +29,7 @@ public class UserManagerDB implements IUserManager {
 	public Connection getConnection() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 	  String url = "jdbc:mysql://localhost:3306/coloceasy"; 
 	  Class.forName("com.mysql.jdbc.Driver").newInstance();
-	  Connection connection = DriverManager.getConnection(url,"root","root");   
-	  return connection;
+	  return DriverManager.getConnection(url,"root","root");
 	}
 	
 	@Override
@@ -81,11 +86,11 @@ public class UserManagerDB implements IUserManager {
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				Integer id = rs.getInt("id");
-				String loginU = rs.getString("login");
-				String password = rs.getString("password");
-				String lastName = rs.getString("last_name");
-				String firstName = rs.getString("first_name");
-				String birthDate = rs.getString("birth_date");
+				String loginU = rs.getString(this.LOGIN);
+				String password = rs.getString(this.PWD);
+				String lastName = rs.getString(this.LASTNAME);
+				String firstName = rs.getString(this.FIRSTNAME);
+				String birthDate = rs.getString(this.BDAY);
 				Integer sexe = rs.getInt("sexe");
 				user = new User(id, loginU, password, lastName, firstName, birthDate, sexe);
 			}
@@ -108,11 +113,11 @@ public class UserManagerDB implements IUserManager {
 			rs = stmt.executeQuery(userSQL);
 			while(rs.next()){
 				Integer id = rs.getInt("id");
-				String loginU = rs.getString("login");
-				String password = rs.getString("password");
-				String lastName = rs.getString("last_name");
-				String firstName = rs.getString("first_name");
-				String birthDate = rs.getString("birth_date");
+				String loginU = rs.getString(this.LOGIN);
+				String password = rs.getString(this.PWD);
+				String lastName = rs.getString(this.LASTNAME);
+				String firstName = rs.getString(this.FIRSTNAME);
+				String birthDate = rs.getString(this.BDAY);
 				Integer sexe = rs.getInt("sexe");
 				User newUser = new User(id, loginU, password, lastName, firstName, birthDate, sexe);
 				userList.add(newUser);
@@ -186,11 +191,11 @@ public class UserManagerDB implements IUserManager {
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				Integer idU = rs.getInt("id");
-				String loginU = rs.getString("login");
-				String password = rs.getString("password");
-				String lastName = rs.getString("last_name");
-				String firstName = rs.getString("first_name");
-				String birthDate = rs.getString("birth_date");
+				String loginU = rs.getString(this.LOGIN);
+				String password = rs.getString(this.PWD);
+				String lastName = rs.getString(this.LASTNAME);
+				String firstName = rs.getString(this.FIRSTNAME);
+				String birthDate = rs.getString(this.BDAY);
 				Integer sexe = rs.getInt("sexe");
 				user = new User(idU, loginU, password, lastName, firstName, birthDate, sexe);
 			}

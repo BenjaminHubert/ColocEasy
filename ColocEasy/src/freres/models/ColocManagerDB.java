@@ -20,8 +20,7 @@ public class ColocManagerDB implements IColocManager {
 	public Connection getConnection() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 	  String url = "jdbc:mysql://localhost:3306/coloceasy"; 
 	  Class.forName("com.mysql.jdbc.Driver").newInstance();
-	  Connection connection = DriverManager.getConnection(url,"root","root");   
-	  return connection;
+	  return DriverManager.getConnection(url,"root","root");
 	}
 
 	@Override
