@@ -1,7 +1,3 @@
-/**
- * Activer le menu responsive
- */
-$(".button-collapse").sideNav();
 
 /**
  * Traduction du datepicker
@@ -23,18 +19,22 @@ jQuery.extend( jQuery.fn.pickadate.defaults, {
     labelYearSelect:"Sélectionner une année"
 });
 
-/**
- * Activer les datepickers
- */
-$('.datepicker').pickadate({
-    selectMonths: true, // Creates a dropdown to control month
-    selectYears: 15, // Creates a dropdown of 15 years to control year
-    formatSubmit: 'yyyy-mm-dd'
- });
+
 
 /**
 * Activer le slideshow
 */
 $(document).ready(function(){
+	// Activer le menu responsive
+	$(".button-collapse").sideNav();
+	// Activer le dropdown dans le menu
+	$(".dropdown-button").dropdown();
+	// Activer les datepickers
+	$('.datepicker').pickadate({
+	    selectMonths: true, // Creates a dropdown to control month
+	    selectYears: 15, // Creates a dropdown of 15 years to control year
+	    formatSubmit: 'yyyy-mm-dd'
+	 });
+	// Activer le slider
 	$('.slider').slider();
 });

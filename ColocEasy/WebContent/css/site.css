@@ -2,21 +2,60 @@
 .input-field label {
 	color: #727272;
 }
+
+/* radio color*/
+[type="radio"].with-gap:checked + label:before {
+	border: 2px solid #ff5722;
+}
+[type="radio"].with-gap:checked + label:after {
+	border: 2px solid #ff5722;
+	background-color: #ff5722;
+}
+
 /* label focus color */
-.input-field input[type=text]:focus+label, .input-field input[type=password]:focus+label
-	{
+.input-field input[type=text]:focus+label,
+.input-field input[type=password]:focus+label,
+.input-field textarea.materialize-textarea:focus+label{
 	color: #ff5722;
 }
 /* label underline focus color */
-.input-field input[type=text]:focus, .input-field input[type=password]:focus
-	{
+.input-field input[type=text]:focus,
+.input-field input[type=password]:focus,
+.input-field textarea.materialize-textarea:focus{
 	border-bottom: 1px solid #ff5722;
 	box-shadow: 0 1px 0 0 #ff5722;
 }
 
 /* icon prefix focus color */
-.input-field .prefix.active {
+.input-field .prefix.active,
+/* dropdown menu */
+.dropdown-content li > a, .dropdown-content li > span {
 	color: #ff5722;
+}
+
+/*datepicker color*/
+.picker__date-display{
+	background-color: #3F51B5;
+}
+.picker__weekday-display{
+	background-color: #303F9F;
+}
+.picker__today{
+	color: #ff5722;
+}
+.picker__day.picker__day--today{
+	color: #ff5722;
+}
+.picker__day--selected,
+.picker__day--selected:hover,
+.picker--focused .picker__day--selected {
+	background-color: #ff5722;
+}
+button.picker__today:focus, 
+button.picker__clear:focus,
+.picker__nav--prev:hover,
+.picker__nav--next:hover{
+	background-color: #ffab91;
 }
 
 .background {
@@ -25,6 +64,20 @@
 }
 
 /*fix search bar*/
-nav .nav-wrapper form, nav .nav-wrapper form .input-field{
+nav .nav-wrapper form,
+nav .nav-wrapper form .input-field{
 	height: 64px;
+}
+/*fixed footer*/
+body {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+/*fixed footer*/
+main {
+	flex: 1 0 auto;
+}
+.btn, .btn:hover {
+	background-color: #ff5722;
 }
