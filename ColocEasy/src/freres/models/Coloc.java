@@ -8,10 +8,10 @@ public class Coloc {
 	private Integer rooms;
 	private String 	titre;
 	private String 	description;
-	private Float 	rent;
-	private Boolean isEnabled;
+	private Integer	rent;
+	private Integer isEnabled;
 	
-	public Coloc(Integer id, Integer district, Integer surface, Integer capacity, Integer rooms, String titre, String description, Float rent, Boolean isEnabled){
+	public Coloc(Integer id, Integer district, Integer surface, Integer capacity, Integer rooms, String titre, String description, Integer rent, Integer isEnabled){
 		this.id = id;
 		this.district = district;
 		this.surface = surface;
@@ -91,19 +91,19 @@ public class Coloc {
 		this.description = description;
 	}
 
-	public Float getRent() {
+	public Integer getRent() {
 		return rent;
 	}
 
-	public void setRent(Float rent) {
+	public void setRent(Integer rent) {
 		this.rent = rent;
 	}
 
-	public Boolean getIsEnabled() {
+	public Integer getIsEnabled() {
 		return isEnabled;
 	}
 
-	public void setIsEnabled(Boolean isEnabled) {
+	public void setIsEnabled(Integer isEnabled) {
 		this.isEnabled = isEnabled;
 	}
 	

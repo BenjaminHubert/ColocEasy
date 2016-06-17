@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import freres.models.Coloc;
 import freres.models.ColocManagerDB;
 import freres.models.IColocManager;
 
@@ -41,9 +42,11 @@ public class ColocServlet extends HttpServlet {
 
 	private void coloc(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		final Integer id = request.getParameter("id") != null ? Integer.parseInt(request.getParameter("id")) :null;
-//		if(id!=null){
-//			this.colocManager.getColoc(id);
-//		} else {
+		if(id!=null){
+			Coloc c = this.colocManager.getColoc(id);
+			request.setAttribute("coloc", c);
+		} 
+//		else {
 //			this.colocManager.getAll();
 //		}
 		request.setAttribute("action", "coloc");

@@ -3,11 +3,21 @@ package freres.models;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 public class ColocManagerDB implements IColocManager {
 	private Connection connection;
+	
+	private static final String DISTRICT = "district";
+	private static final String SURFACE = "surface";
+	private static final String CAPACITY = "capacity";
+	private static final String ROOMS = "rooms";
+	private static final String TITLE = "title";
+	private static final String DESCRIPTION = "description";
+	private static final String RENT = "rent";
+	private static final String ENABLED = "isEnabled";
 	
 	public ColocManagerDB() {
 		try {
@@ -29,7 +39,7 @@ public class ColocManagerDB implements IColocManager {
 		int result = 0;
 		try {
 			
-			String userSQL = "INSERT INTO coloc(district, surface, capacity, rooms, titre, description, rent, is_enabled) VALUES(?, ?, ?, ?, ?, ?, ?, true );";
+			String userSQL = "INSERT INTO coloc(district, surface, capacity, rooms, title, description, rent, is_enabled) VALUES(?, ?, ?, ?, ?, ?, ?, true );";
 			stmt = this.connection.prepareStatement(userSQL);
 			
 			stmt.setInt(1, district);
@@ -47,13 +57,41 @@ public class ColocManagerDB implements IColocManager {
 		}		
 		return result == 1;
 	}
-//
-//	@Override
-//	public Coloc getColoc(Integer id) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
+
+	@Override
+	public Coloc getColoc(Integer id) {
+		Coloc coloc = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try{
+			String colocSql = "SELECT * FROM coloc WHERE id = ?";
+			stmt = this.connection.prepareStatement(colocSql);
+			
+			stmt.setInt(1, id);
+			
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				Integer capacity = rs.getInt(ColocManagerDB.CAPACITY);
+				Integer district = rs.getInt(ColocManagerDB.DISTRICT);
+				Integer surface = rs.getInt(ColocManagerDB.SURFACE);
+				Integer rooms = rs.getInt(ColocManagerDB.ROOMS);
+				Integer rent = rs.getInt(ColocManagerDB.RENT);
+				String title = rs.getString(ColocManagerDB.TITLE);
+				String description = rs.getString(ColocManagerDB.DESCRIPTION);
+				Integer isEnabled = rs.getInt(ColocManagerDB.ENABLED);
+				coloc = new Coloc(id, district, surface, capacity, rooms, title, description, rent, isEnabled);
+			}
+			rs.close();
+			stmt.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return coloc;
+	}
+
 //	@Override
 //	public List<Coloc> getAll() {
 //		// TODO Auto-generated method stub
