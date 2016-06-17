@@ -5,11 +5,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ColocManagerDB implements IColocManager {
 	private Connection connection;
-	
+
+	private static final String ID = "id";
 	private static final String DISTRICT = "district";
 	private static final String SURFACE = "surface";
 	private static final String CAPACITY = "capacity";
@@ -92,9 +95,32 @@ public class ColocManagerDB implements IColocManager {
 		return coloc;
 	}
 
-//	@Override
-//	public List<Coloc> getAll() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	@Override
+	public List<Coloc> getLast() {
+		List<Coloc> colocList = new ArrayList<>();
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			stmt = this.connection.createStatement();
+			String listSQL = "SELECT * FROM coloc WHERE isEnabled = 1 ORDER BY id DESC LIMIT 3";
+			rs = stmt.executeQuery(listSQL);
+			while(rs.next()){
+				Integer id = rs.getInt(ColocManagerDB.ID);
+				Integer capacity = rs.getInt(ColocManagerDB.CAPACITY);
+				Integer district = rs.getInt(ColocManagerDB.DISTRICT);
+				Integer surface = rs.getInt(ColocManagerDB.SURFACE);
+				Integer rooms = rs.getInt(ColocManagerDB.ROOMS);
+				Integer rent = rs.getInt(ColocManagerDB.RENT);
+				String title = rs.getString(ColocManagerDB.TITLE);
+				String description = rs.getString(ColocManagerDB.DESCRIPTION);
+				Coloc coloc = new Coloc(id, district, surface, capacity, rooms, title, description, rent, 1);
+				colocList.add(coloc);
+			}
+			rs.close();
+			stmt.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return colocList;
+	}
 }

@@ -45,16 +45,16 @@ public class ColocServlet extends HttpServlet {
 		if(id!=null){
 			Coloc c = this.colocManager.getColoc(id);
 			request.setAttribute("coloc", c);
-		} 
-//		else {
-//			this.colocManager.getAll();
-//		}
+		} else {
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			return;
+		}
 		request.setAttribute("action", "coloc");
 		request.getRequestDispatcher("/WEB-INF/html/coloc.jsp").forward(request, response);
 	}
 	
 	private void add(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		final Integer capacity = request.getParameter("capacity") != null ? Integer.parseInt(request.getParameter("capacity")) :null;
+		final Integer capacity = request.getParameter("capacity") != null ? Integer.parseInt(request.getParameter("capacity")) : null;
 		final String description = request.getParameter("description");
 		final Integer district = request.getParameter("district") != null ? Integer.parseInt(request.getParameter("district")) : null;
 		final Float rent = request.getParameter("rent") != null ? Float.parseFloat(request.getParameter("rent")) : null;
