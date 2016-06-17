@@ -2,6 +2,9 @@
 .input-field label {
 	color: #727272;
 }
+.btn, .btn:hover {
+	background-color: #ff5722;
+}
 
 /* radio color*/
 [type="radio"].with-gap:checked + label:before {
@@ -78,6 +81,6 @@ body {
 main {
 	flex: 1 0 auto;
 }
-.btn, .btn:hover {
-	background-color: #ff5722;
+footer.page-footer{
+	margin-top: 0px;
 }
