@@ -57,7 +57,7 @@
 										</div>
 									</div>
 									<div class="right-align">
-										<button href="signin" id="signin-button" class="btn-large waves-effect waves-light deep-orange lighten-1">S'inscrire</button>
+										<button id="signup-button" class="btn-large waves-effect waves-light deep-orange lighten-1">S'inscrire</button>
 									</div>
 								</form>
 							</c:when>
