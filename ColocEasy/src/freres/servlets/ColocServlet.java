@@ -10,14 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import freres.models.Coloc;
 import freres.models.ColocManagerDB;
 import freres.models.IColocManager;
+import freres.models.User;
 
-/**
- * Servlet implementation class Coloc
- */
 @WebServlet(
 		name = "coloc-servlet", 
 		description = "Servlet handling colocs", 
-		urlPatterns = { "/coloc", "/addColoc" /*, "/signup", "/profile" /*, "/userList"*/ })
+		urlPatterns = { "/coloc", "/addColoc", "/myColocs", "/confirmColoc"})
 public class ColocServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
@@ -33,9 +31,13 @@ public class ColocServlet extends HttpServlet {
 			this.coloc(request, response);
 		} else if (uri.contains("/addColoc")) {
 			this.add(request, response);
+		} else if(uri.contains("/myColocs")) {
+			this.mine(request, response);
+		} else if(uri.contains("/confirmColoc")) {
+			this.getServletContext().getRequestDispatcher("/WEB-INF/html/confirmColoc.jsp").forward(request, response);
 		}
 	}
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
@@ -61,11 +63,19 @@ public class ColocServlet extends HttpServlet {
 		final Integer rooms = request.getParameter("rooms") != null ? Integer.parseInt(request.getParameter("rooms")) : null;
 		final Integer surface = request.getParameter("surface") != null ? Integer.parseInt(request.getParameter("surface")) : null;
 		final String title = request.getParameter("title");
-		
+		final Integer idOwner = request.getSession().getAttribute("userSession") != null  ? ((User)request.getSession().getAttribute("userSession")).getId() : null;
 		if(capacity != null && description != null && district != null && rent != null && rooms!= null && surface!= null && title!= null){
-			this.colocManager.createColoc(district, surface, capacity, rooms, title, description, rent);
+			this.colocManager.createColoc(district, surface, capacity, rooms, title, description, rent, idOwner);
+			response.sendRedirect("confirmColoc");
+			return;
 		}
 		request.setAttribute("action", "add");
 		request.getRequestDispatcher("/WEB-INF/html/addColoc.jsp").forward(request, response);
+	}
+
+	
+	private void mine(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		request.setAttribute("action", "mine");
+		request.getRequestDispatcher("/WEB-INF/html/myColocs.jsp").forward(request, response);
 	}
 }
