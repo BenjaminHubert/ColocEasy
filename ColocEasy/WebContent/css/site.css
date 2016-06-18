@@ -2,7 +2,9 @@
 .input-field label {
 	color: #727272;
 }
-.btn, .btn:hover {
+
+.btn, .btn:hover, 
+.slider .indicators .indicator-item.active{
 	background-color: #ff5722;
 }
 
