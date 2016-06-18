@@ -16,7 +16,7 @@ import freres.others.MD5;
 @WebServlet(
 		name = "user-servlet", 
 		description = "Servlet handling user login", 
-		urlPatterns = { "/login", "/logout" , "/signup", "/profile", "/userConfirm" /*, "/userList"*/ })
+		urlPatterns = { "/login", "/logout" , "/signup", "/profile", "/confirmUser" /*, "/userList"*/ })
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String USER_SESSION = "userSession";
@@ -45,8 +45,8 @@ public class UserServlet extends HttpServlet {
 			this.create(request, response);
 		} else if(uri.contains("/profile")) {
 			this.profile(request, response);
-		} else if (uri.contains("/userConfirm")) {
-			this.getServletContext().getRequestDispatcher("/WEB-INF/html/confirm.jsp").forward(request, response);
+		} else if (uri.contains("/confirmUser")) {
+			this.getServletContext().getRequestDispatcher("/WEB-INF/html/confirmUser.jsp").forward(request, response);
 		}
 	}
 
