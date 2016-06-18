@@ -10,7 +10,7 @@
 				<c:choose>
 					<c:when test="${sessionScope.userSession != null }">
 						<h3>Ajouter une colocation</h3>
-						<form action="" method="post">
+						<form action="addColoc" method="post">
 							<div class="row">
 								<div class="input-field col s12 m6">
 						            <i class="material-icons prefix">label</i>
@@ -37,28 +37,28 @@
 					        <div class="row">
 								<div class="input-field col s12 m3">
 						            <i class="material-icons prefix">room</i>
-						            <input id="district" name="district" type="text" required>
-						            <label for="district">Arrondissement *</label>
+						            <input id="district" name="district" type="number" class="validate" min="0" max="20" required>
+						            <label for="district" data-error="Arrondissement incorrect">Arrondissement *</label>
 						        </div>
 								<div class="input-field col s12 m3">
 						            <i class="material-icons prefix">info</i>
-						            <input id="surface" name="surface" type="text"  required>
-						            <label for="surface">Surface (en m²)*</label>
+						            <input id="surface" name="surface" type="number" class="validate" min="9" required>
+						            <label for="surface" data-error="Doit être un nombre supérieur à 9m²">Surface (en m²) *</label>
 						        </div>
 								<div class="input-field col s12 m3">
 						            <i class="material-icons prefix">supervisor_account</i>
-						            <input id="capacity" name="capacity" type="text"  required>
-						            <label for="capacity">Capacité (en personnes)*</label>
+						            <input id="capacity" name="capacity" type="number" class="validate" min="1" required>
+						            <label for="capacity" data-error="Doit être un nombre supérieur à 1 personne">Capacité (en personnes) *</label>
+						        </div>
+								<div class="input-field col s12 m3">
+						            <i class="material-icons prefix">store</i>
+						            <input id="rooms" name="rooms" type="number" class="validate" min="1" required>
+						            <label for="rooms" data-error="Doit être un nombre supérieur à 1 pièce">Nombre de pièces *</label>
 						        </div>
 								<div class="input-field col s12 m3">
 						            <i class="material-icons prefix">payment</i>
-						            <input id="rooms" name="rooms" type="text" required>
-						            <label for="rooms">Nombre de pièces *</label>
-						        </div>
-								<div class="input-field col s12 m3">
-						            <i class="material-icons prefix">payment</i>
-						            <input id="rent" name="rent" type="text" required>
-						            <label for="rent">Loyer (en €/mois)*</label>
+						            <input id="rent" name="rent" type="number" class="validate" min="0" required>
+						            <label for="rent" data-error="Doit être un nombre positif">Loyer (en €/mois) *</label>
 						        </div>
 					        </div>
 							<div class="row">
