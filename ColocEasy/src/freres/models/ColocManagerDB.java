@@ -37,12 +37,12 @@ public class ColocManagerDB implements IColocManager {
 	}
 
 	@Override
-	public boolean createColoc(Integer district, Integer surface, Integer capacity, Integer rooms, String titre, String description, Float rent) {
+	public boolean createColoc(Integer district, Integer surface, Integer capacity, Integer rooms, String titre, String description, Float rent, Integer idOwner) {
 		PreparedStatement stmt = null;
 		int result = 0;
 		try {
 			
-			String userSQL = "INSERT INTO coloc(district, surface, capacity, rooms, title, description, rent, is_enabled) VALUES(?, ?, ?, ?, ?, ?, ?, true );";
+			String userSQL = "INSERT INTO coloc(district, surface, capacity, rooms, title, description, rent, isEnabled, id_utilisateur) VALUES(?, ?, ?, ?, ?, ?, ?, true, ? );";
 			stmt = this.connection.prepareStatement(userSQL);
 			
 			stmt.setInt(1, district);
@@ -52,6 +52,7 @@ public class ColocManagerDB implements IColocManager {
 			stmt.setString(5, titre);
 			stmt.setString(6, description);
 			stmt.setFloat(7, rent);
+			stmt.setInt(8, idOwner);
 			
 			result = stmt.executeUpdate();
 			stmt.close();
