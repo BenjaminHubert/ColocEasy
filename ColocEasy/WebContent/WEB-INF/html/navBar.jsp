@@ -7,24 +7,15 @@
 		<!-- Liste déroulante -->
 		<ul id="dropdown1" class="dropdown-content">
 			<li><a href="addColoc">Ajouter une coloc</a></li>
+			<li><a href="myColocs">Mes colocs</a></li>
 			<li><a href="profile">Profil</a></li>
 			<li class="divider"></li>
 			<li><a href="logout">Déconnexion</a></li>
 		</ul>		
-		<ul class="right hide-on-med-and-down">
-		<!-- 	<li>
-				<form>
-					<div class="input-field">
-						<input id="search" type="search" required placeholder="Rechercher"> <label
-							for="search"><i class="material-icons">search</i></label> <i
-							class="material-icons">close</i>
-					</div>
-				</form>
-			</li> -->
-			
+		<ul class="right hide-on-med-and-down">			
 			<c:choose>
 				<c:when test="${sessionScope.userSession != null }">
-					<li><a class="dropdown-button" href="#!" data-activates="dropdown1">Options<i class="material-icons right">arrow_drop_down</i></a></li>
+					<li><a class="dropdown-button" href="#!" data-activates="dropdown1"><i class="material-icons left">settings</i>Options<i class="material-icons right">arrow_drop_down</i></a></li>
 				</c:when>
 				<c:otherwise>
 					<li><a href="login">Se connecter</a></li>
@@ -45,6 +36,7 @@
 				<c:choose>
 					<c:when test="${sessionScope.userSession != null }">
 						<li><a href="addColoc">Ajouter une coloc</a></li>
+						<li><a href="myColocs">Mes colocs</a></li>
 						<li><a href="profile">Profil</a></li>
 						<li><a href="logout">Déconnexion</a></li>
 					</c:when>
