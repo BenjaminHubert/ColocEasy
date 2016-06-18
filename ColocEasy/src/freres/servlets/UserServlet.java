@@ -11,10 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import freres.models.IUserManager;
 import freres.models.User;
 import freres.models.UserManagerDB;
+import freres.others.MD5;
 
-/**
- * Servlet implementation class UserServlet
- */
 @WebServlet(
 		name = "user-servlet", 
 		description = "Servlet handling user login", 
@@ -33,17 +31,10 @@ public class UserServlet extends HttpServlet {
 	
 	private IUserManager userManager = new UserManagerDB();
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
 	public UserServlet() {
 		super();
 	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		final String uri = request.getRequestURI();
 		if (uri.contains("/login")) {
@@ -59,28 +50,21 @@ public class UserServlet extends HttpServlet {
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
 
 	private void login(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		final String login = request.getParameter(UserServlet.LOGIN);
-		final String password = request.getParameter(UserServlet.PWD);
+		final String password = request.getParameter(UserServlet.PWD) != null ? MD5.getMD5(request.getParameter(UserServlet.PWD)) : null;
 
 		if (login == null || password == null) {
-			System.out.println("Navigating to login.");
 		} else if (this.userManager.checkLoginWithPassword(login, password)) {
 				request.getSession().setAttribute(UserServlet.USER_SESSION, this.userManager.getUser(login));
-				System.out.println(request.getSession().getAttribute(UserServlet.USER_SESSION) + " logging in, redirecting to index.");
 				response.sendRedirect("index");
 				return;
 			}  else {
 			request.setAttribute(UserServlet.ERRORMESSAGE, "Login ou mot de passe incorrect");
-			System.out.println("Login failed");
 		}
 		request.setAttribute(UserServlet.ACTION, UserServlet.LOGIN);
 		request.getRequestDispatcher("/WEB-INF/html/login.jsp").forward(request, response);
@@ -88,8 +72,8 @@ public class UserServlet extends HttpServlet {
 
 	private void create(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		 final String login = request.getParameter(UserServlet.LOGIN);
-		 final String password = request.getParameter(UserServlet.PWD);
-		 final String confirm = request.getParameter("confirm");
+		 final String password = request.getParameter(UserServlet.PWD) != null ? MD5.getMD5(request.getParameter(UserServlet.PWD)) : null;
+		 final String confirm = request.getParameter("confirm") != null ? MD5.getMD5(request.getParameter("confirm")) : null;
 		 final String lastName = request.getParameter("last_name");
 		 final String firstName = request.getParameter("first_name");
 		 final String birthDate = request.getParameter("birth_date_submit");
@@ -99,17 +83,14 @@ public class UserServlet extends HttpServlet {
 			 if(password.equals(confirm)){
 				 if (this.userManager.checkLogin(login)) {
 					 request.setAttribute(UserServlet.ERRORMESSAGE, "User already exists. Please chose another");
-					 System.out.println(request.getAttribute(UserServlet.ERRORMESSAGE));
 				 } else {
 					 this.userManager.createUser(login, password, lastName, firstName, birthDate, sexe);
 					 request.setAttribute(UserServlet.SUCCESS, "User succesfully created");
-					 System.out.println(request.getAttribute(UserServlet.SUCCESS));
-					 response.sendRedirect("confirm");
+					 response.sendRedirect("userConfirm");
 					 return;
 				 }
 			 }
 			 request.setAttribute(UserServlet.ERRORMESSAGE, UserServlet.NOMATCH);
-			 System.out.println(UserServlet.NOMATCH);
 		 }
 		 request.setAttribute(UserServlet.ACTION, "create");
 		 request.getRequestDispatcher("/WEB-INF/html/signup.jsp").forward(request, response);
@@ -126,20 +107,18 @@ public class UserServlet extends HttpServlet {
 			final String lastName = request.getParameter("last_name");
 			final String id = request.getParameter("id");
 			final String sexe = request.getParameter("sexe");
-			final String password = request.getParameter(UserServlet.PWD);
-			final String confirm = request.getParameter("password_confirmation") != "" ? request.getParameter(UserServlet.NEWPWD): u.getPassword();
-			final String newPass = request.getParameter(UserServlet.NEWPWD) != "" ? request.getParameter(UserServlet.NEWPWD): u.getPassword();
+			final String password = request.getParameter(UserServlet.PWD) != null ? MD5.getMD5(request.getParameter(UserServlet.PWD)) : request.getParameter(UserServlet.PWD);
+			final String confirm = request.getParameter("password_confirmation") != null ? MD5.getMD5(request.getParameter(UserServlet.NEWPWD)) : null; // u.getPassword();
+			final String newPass = request.getParameter(UserServlet.NEWPWD) != null ? MD5.getMD5(request.getParameter(UserServlet.NEWPWD)) : null; //u.getPassword();
 			
 			if(id != null) {
 				if(newPass.equals(confirm) && password.equals(((User)request.getSession().getAttribute(UserServlet.USER_SESSION)).getPassword())){
 					if(this.userManager.editUser(id, login, newPass, lastName, firstName, birthDate, sexe)){
 						request.getSession().setAttribute(UserServlet.USER_SESSION, this.userManager.getUser(Integer.parseInt(id)));
 						request.setAttribute(UserServlet.SUCCESS, "The user "+login+" has been updated.");
-						System.out.println("The user "+login+" has been updated.");
 					}
 				} else {
 					 request.setAttribute(UserServlet.ERRORMESSAGE, UserServlet.NOMATCH);
-					 System.out.println(UserServlet.NOMATCH);
 				}
 			}
 		}
@@ -148,23 +127,7 @@ public class UserServlet extends HttpServlet {
 	}
 	 
 	private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		System.out.println(request.getSession().getAttribute(USER_SESSION)+" logging out, redirecting to index");
 		request.getSession().removeAttribute(UserServlet.USER_SESSION);
 		response.sendRedirect("index");
 	}
-
-	//
-	// private void list(HttpServletRequest request, HttpServletResponse
-	// response) throws IOException, ServletException {
-	// String pageType = request.getParameter("output");
-	//
-	// if (pageType == null || !pageType.equals("json")) {
-	// pageType = "html";
-	// }
-	// request.setAttribute("title", "List all users");
-	// request.setAttribute("userList", this.userManager.allUsers());
-	// request.getRequestDispatcher("/WEB-INF/html/userList.jsp").forward(request,
-	// response);
-	// }
-	//
 }

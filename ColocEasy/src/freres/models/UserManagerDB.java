@@ -5,9 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserManagerDB implements IUserManager {
 	private Connection connection;
@@ -100,34 +97,6 @@ public class UserManagerDB implements IUserManager {
 			e.printStackTrace();
 		}		
 		return user;
-	}
-
-	@Override
-	public List<User> allUsers() {
-		List<User> userList = new ArrayList<>(); 
-		Statement stmt = null;
-		ResultSet rs = null;
-		try {
-			stmt = this.connection.createStatement();
-			String userSQL = "SELECT * FROM utilisateur";
-			rs = stmt.executeQuery(userSQL);
-			while(rs.next()){
-				Integer id = rs.getInt("id");
-				String loginU = rs.getString(UserManagerDB.LOGIN);
-				String password = rs.getString(UserManagerDB.PWD);
-				String lastName = rs.getString(UserManagerDB.LASTNAME);
-				String firstName = rs.getString(UserManagerDB.FIRSTNAME);
-				String birthDate = rs.getString(UserManagerDB.BDAY);
-				Integer sexe = rs.getInt("sexe");
-				User newUser = new User(id, loginU, password, lastName, firstName, birthDate, sexe);
-				userList.add(newUser);
-			}
-			rs.close();
-			stmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}		
-		return userList;
 	}
 	
 	public Boolean deleteUser(String login) {
