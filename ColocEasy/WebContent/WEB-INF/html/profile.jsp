@@ -31,7 +31,7 @@
 				</div>
 		        <div class="input-field col s12 m12">
 		            <i class="material-icons prefix">date_range</i>
-		            <input id="birthday" type="date" name="birthday" class="datepicker" required value="<c:out value="${sessionScope.userSession.birth_date }"/>">
+		            <input id="birthday" type="date" name="birthday" class="datepicker" required value="<c:out value="${sessionScope.userSession.birthDate }"/>">
 		            <label for="birthday">Date de naissance *</label>
 		        </div>
 		        <div class="input-field col s12 m12">
