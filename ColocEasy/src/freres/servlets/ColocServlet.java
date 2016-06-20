@@ -1,26 +1,44 @@
 package freres.servlets;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Array;
+import java.nio.file.Files;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import freres.models.Coloc;
 import freres.models.ColocManagerDB;
 import freres.models.IColocManager;
+import freres.models.IImageManager;
+import freres.models.ImageManagerDB;
 import freres.models.User;
 
 @WebServlet(
 		name = "coloc-servlet", 
 		description = "Servlet handling colocs", 
 		urlPatterns = { "/coloc", "/addColoc", "/myColocs", "/confirmColoc"})
+//UPLOAD
+@MultipartConfig(location="D:/ColocEasy/tmp",
+				 fileSizeThreshold=1024*1024*2, // 2MB
+                 maxFileSize=1024*1024*10,      // 10MB
+                 maxRequestSize=1024*1024*50)   // 50MB
+//UPLOAD
 public class ColocServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+    private static final String SAVE_DIR = "D:/ColocEasy";
     
 	private IColocManager colocManager = new ColocManagerDB();
-    
+    private IImageManager imageManager = new ImageManagerDB();
+	
     public ColocServlet() {
         super();
     }
@@ -64,8 +82,34 @@ public class ColocServlet extends HttpServlet {
 		final Integer surface = request.getParameter("surface") != null ? Integer.parseInt(request.getParameter("surface")) : null;
 		final String title = request.getParameter("title");
 		final Integer idOwner = request.getSession().getAttribute("userSession") != null  ? ((User)request.getSession().getAttribute("userSession")).getId() : null;
+		//DÉBUT GESTION UPLOAD
+		ArrayList<String> imageList = new ArrayList<String>();
+		
+		if(request.getMethod().equals("POST")){
+	        
+	        File uploads = new File(ColocServlet.SAVE_DIR); 
+	        for (Part part : request.getParts()) {
+	            //String fileName = extractFileName(part);
+	            String fileName = createFileName(part, idOwner);
+	            if(!fileName.isEmpty()){
+	            	imageList.add(fileName);
+	            }
+	            File f = new File(fileName);
+	            File file = new File(uploads, f.getName());
+	            try(InputStream input = part.getInputStream()){
+	            	Files.copy(input, file.toPath());
+	            } catch (Exception e) {
+
+	            }
+	        }
+		}
+		//FIN GESTION UPLOAD
 		if(capacity != null && description != null && district != null && rent != null && rooms!= null && surface!= null && title!= null){
-			this.colocManager.createColoc(district, surface, capacity, rooms, title, description, rent, idOwner);
+			int idC = this.colocManager.createColoc(district, surface, capacity, rooms, title, description, rent, idOwner);
+			//INSERT IMAGE
+			for(String path : imageList){
+				this.imageManager.createImage(path, idC);
+			}
 			response.sendRedirect("confirmColoc");
 			return;
 		}
@@ -78,4 +122,23 @@ public class ColocServlet extends HttpServlet {
 		request.setAttribute("action", "mine");
 		request.getRequestDispatcher("/WEB-INF/html/myColocs.jsp").forward(request, response);
 	}
+	
+	//UPLOAD
+	private String createFileName(Part part, Integer idOwner) {
+	    String contentDisp = part.getHeader("content-disposition");
+	    String[] items = contentDisp.split(";");
+	    for (String s : items) {
+	        if (s.trim().startsWith("filename")) {
+	        	int i = s.lastIndexOf('.');
+	        	if(i>0){
+	        		String extension = s.substring(i+1, s.length()-1);
+		        	if(extension.equals("jpg") || extension.equals("jpeg") || extension.equals("png") || extension.equals("gif")){
+		        		return java.util.UUID.randomUUID().toString()+idOwner+"."+extension;
+		        	} 
+	        	}
+	        }
+	    }
+	    return "";
+	}
+	//UPLOAD
 }

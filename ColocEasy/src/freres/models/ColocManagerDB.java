@@ -37,13 +37,13 @@ public class ColocManagerDB implements IColocManager {
 	}
 
 	@Override
-	public boolean createColoc(Integer district, Integer surface, Integer capacity, Integer rooms, String titre, String description, Float rent, Integer idOwner) {
+	public Integer createColoc(Integer district, Integer surface, Integer capacity, Integer rooms, String titre, String description, Float rent, Integer idOwner) {
 		PreparedStatement stmt = null;
 		int result = 0;
 		try {
 			
 			String userSQL = "INSERT INTO coloc(district, surface, capacity, rooms, title, description, rent, isEnabled, id_utilisateur) VALUES(?, ?, ?, ?, ?, ?, ?, true, ? );";
-			stmt = this.connection.prepareStatement(userSQL);
+			stmt = this.connection.prepareStatement(userSQL, Statement.RETURN_GENERATED_KEYS);
 			
 			stmt.setInt(1, district);
 			stmt.setInt(2, surface);
@@ -55,11 +55,15 @@ public class ColocManagerDB implements IColocManager {
 			stmt.setInt(8, idOwner);
 			
 			result = stmt.executeUpdate();
+			ResultSet rs = stmt.getGeneratedKeys();
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
 			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}		
-		return result == 1;
+		return result;
 	}
 
 	@Override

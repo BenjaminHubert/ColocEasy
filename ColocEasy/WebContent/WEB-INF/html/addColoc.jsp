@@ -10,7 +10,7 @@
 				<c:choose>
 					<c:when test="${sessionScope.userSession != null }">
 						<h3>Ajouter une colocation</h3>
-						<form action="addColoc" method="post">
+						<form action="addColoc" method="post" enctype="multipart/form-data">
 							<div class="row">
 								<div class="input-field col s12 m6">
 						            <i class="material-icons prefix">label</i>
@@ -20,7 +20,7 @@
 						        <div class="file-field input-field col s12 m6">
 						        	<div class="btn">
 							        	<span>Images</span>
-							        	<input type="file" multiple>
+							        	<input type="file" name="files" multiple>
 						        	</div>
 						        	<div class="file-path-wrapper">
 						        		<input class="file-path" type="text" placeholder="Choisissez une ou plusieurs images">
