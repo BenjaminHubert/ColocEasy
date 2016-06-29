@@ -3,7 +3,6 @@ package freres.servlets;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.util.ArrayList;
 
@@ -25,7 +24,7 @@ import freres.models.User;
 @WebServlet(
 		name = "coloc-servlet", 
 		description = "Servlet handling colocs", 
-		urlPatterns = { "/coloc", "/addColoc", "/myColocs", "/confirmColoc"})
+		urlPatterns = { "/coloc", "/addColoc", "/editColoc", "/myColocs", "/confirmColoc"})
 //UPLOAD
 @MultipartConfig(location="D:/ColocEasy/tmp",
 				 fileSizeThreshold=1024*1024*2, // 2MB
@@ -49,6 +48,8 @@ public class ColocServlet extends HttpServlet {
 			this.coloc(request, response);
 		} else if (uri.contains("/addColoc")) {
 			this.add(request, response);
+		} else if  (uri.contains("/editColoc")) {
+			this.edit(request, response);
 		} else if(uri.contains("/myColocs")) {
 			this.mine(request, response);
 		} else if(uri.contains("/confirmColoc")) {
@@ -61,10 +62,16 @@ public class ColocServlet extends HttpServlet {
 	}
 
 	private void coloc(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		final Integer id = request.getParameter("id") != null ? Integer.parseInt(request.getParameter("id")) :null;
+		final Integer id = request.getParameter("id") != "" ? Integer.parseInt(request.getParameter("id")) : null;
 		if(id!=null){
 			Coloc c = this.colocManager.getColoc(id);
-			request.setAttribute("coloc", c);
+			if(c != null){
+				request.setAttribute("coloc", c);
+				request.setAttribute("imageList", this.imageManager.getColocImages(c.getId()));
+			} else {
+				response.sendError(HttpServletResponse.SC_NOT_FOUND);
+				return;
+			}
 		} else {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return;
@@ -88,8 +95,7 @@ public class ColocServlet extends HttpServlet {
 		if(request.getMethod().equals("POST")){
 	        
 	        File uploads = new File(ColocServlet.SAVE_DIR); 
-	        for (Part part : request.getParts()) {
-	            //String fileName = extractFileName(part);
+	        for (Part part : request.getParts()) { 
 	            String fileName = createFileName(part, idOwner);
 	            if(!fileName.isEmpty()){
 	            	imageList.add(fileName);
@@ -117,6 +123,26 @@ public class ColocServlet extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/html/addColoc.jsp").forward(request, response);
 	}
 
+	private void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		final Integer capacity = request.getParameter("capacity") != null ? Integer.parseInt(request.getParameter("capacity")) : null;
+		final String description = request.getParameter("description");
+		final Integer district = request.getParameter("district") != null ? Integer.parseInt(request.getParameter("district")) : null;
+		final Float rent = request.getParameter("rent") != null ? Float.parseFloat(request.getParameter("rent")) : null;
+		final Integer rooms = request.getParameter("rooms") != null ? Integer.parseInt(request.getParameter("rooms")) : null;
+		final Integer surface = request.getParameter("surface") != null ? Integer.parseInt(request.getParameter("surface")) : null;
+		final String title = request.getParameter("title");
+		final Integer idOwner = request.getSession().getAttribute("userSession") != null  ? ((User)request.getSession().getAttribute("userSession")).getId() : null;
+		
+		//Créer une coloc à partir de l'id récupéré en GET pour remplir les champs de la vue
+		if(request.getMethod().equals("POST")){
+			//Faire un input caché dans la vue qui contient l'id coloc
+			//Vérifier que la coloc appartient à l'utilisateur
+			//Faire l'édition
+		}
+		request.setAttribute("action", "edit");
+		request.getRequestDispatcher("/WEB-INF/html/editColoc.jsp").forward(request, response);
+		
+	}
 	
 	private void mine(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		request.setAttribute("action", "mine");
@@ -140,5 +166,4 @@ public class ColocServlet extends HttpServlet {
 	    }
 	    return "";
 	}
-	//UPLOAD
 }

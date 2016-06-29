@@ -7,7 +7,7 @@
 	<main>
 	<div class="container">
 		<div class="row">
-			<div class="col s8 offset-s2">
+			<div class="col s12">
 				<c:choose>
 					<c:when test="${param.id != null}">
 						<div class="row">
@@ -17,27 +17,16 @@
 						<div class="row">
 							<div class="slider">
 							    <ul class="slides">
-							      <li>
-							        <img src="https://static.pexels.com/photos/87223/pexels-photo-87223.jpeg">
-							        <div class="caption center-align">
-							          <h3>This is our big Tagline!</h3>
-							          <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
-							        </div>
-							      </li>
-							      <li>
-							        <img src="https://static.pexels.com/photos/4703/inside-apartment-design-home.jpg">
-							        <div class="caption left-align">
-							          <h3>Left Aligned Caption</h3>
-							          <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
-							        </div>
-							      </li>
-							      <li>
-							        <img src="https://static.pexels.com/photos/2705/bed-bedroom-room-furniture.jpg">
-							        <div class="caption right-align">
-							          <h3>Right Aligned Caption</h3>
-							          <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
-							        </div>
-							      </li>
+							    <c:choose>
+							    	<c:when test="${not empty imageList }">
+							    		<c:forEach items="${imageList }" var="image">
+							    			<li><img src="${image.path }"></li>
+							    		</c:forEach>
+						    		</c:when>
+						    		<c:otherwise>
+						    			<li><img><div class="caption center-align"><h5 class="light grey-text text-lighten-3">Pas d'image</h5></div>
+						    		</c:otherwise>
+					    		</c:choose>
 							    </ul>
 							</div>
 						</div>

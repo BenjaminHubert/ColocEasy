@@ -128,4 +128,28 @@ public class ColocManagerDB implements IColocManager {
 		}
 		return colocList;
 	}
+
+	@Override
+	public boolean editColoc(Integer id, Integer surface, Integer capacity, Integer rooms, String titre, String description, Integer rent, Integer idOwner) {
+		PreparedStatement stmt = null;
+		int result = 0;
+		
+		String sql = "UPDATE coloc SET surface=?, capacity=?, rooms=?, titre=?, description=?, rent=?, idOwner=?";
+		try {
+			stmt = this.connection.prepareStatement(sql);
+
+			stmt.setInt(1, surface);
+			stmt.setInt(2, capacity);
+			stmt.setInt(3, rooms);
+			stmt.setString(4, titre);
+			stmt.setString(5, description);
+			stmt.setInt(6, rent);
+			stmt.setInt(7, idOwner);
+			
+			result = stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result == 1;
+	}
 }

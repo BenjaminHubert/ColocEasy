@@ -11,6 +11,7 @@ import freres.models.ColocManagerDB;
 import freres.models.IColocManager;
 
 @WebServlet(
+		name = "index-servlet",
 		urlPatterns = {"", "/index", "/Index"}
 		)
 public class Index extends HttpServlet {

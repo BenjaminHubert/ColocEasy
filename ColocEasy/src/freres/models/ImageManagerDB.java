@@ -3,7 +3,11 @@ package freres.models;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ImageManagerDB implements IImageManager{
 	private Connection connection;
@@ -40,5 +44,32 @@ public class ImageManagerDB implements IImageManager{
 			e.printStackTrace();
 		}		
 		return result == 1;
+	}
+
+	@Override
+	public List<Image> getColocImages(Integer idColoc) {
+		List<Image> imageList = new ArrayList<>();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			String listSQL = "SELECT * FROM picture WHERE id_coloc = ?";
+			stmt = this.connection.prepareStatement(listSQL);
+			
+			stmt.setInt(1, idColoc);
+			rs = stmt.executeQuery();
+			
+			while(rs.next()){
+				Integer id = rs.getInt("id");
+				String path = rs.getString("path");
+				Integer idC = rs.getInt("id_coloc");
+				Image image = new Image(id, path, idC);
+				imageList.add(image);
+			}
+			rs.close();
+			stmt.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return imageList;
 	}
 }
