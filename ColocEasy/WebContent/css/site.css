@@ -4,7 +4,8 @@
 }
 
 .btn, .btn:hover, 
-.slider .indicators .indicator-item.active{
+.slider .indicators .indicator-item.active,
+.switch label input[type="checkbox"]:checked + .lever::after{
 	background-color: #ff5722;
 }
 
@@ -65,7 +66,8 @@
 button.picker__today:focus, 
 button.picker__clear:focus,
 .picker__nav--prev:hover,
-.picker__nav--next:hover{
+.picker__nav--next:hover,
+.switch label input[type="checkbox"]:checked + .lever {
 	background-color: #ffab91;
 }
 
