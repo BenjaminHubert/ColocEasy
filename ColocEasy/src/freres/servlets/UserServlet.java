@@ -24,8 +24,8 @@ public class UserServlet extends HttpServlet {
 	private static final String LOGIN = "login"; 
 	private static final String PWD = "password"; 
 	private static final String NEWPWD = "password_new"; 
-	private static final String NOMATCH = "The passwords do not match."; 
-	private static final String ERRORMESSAGE = "error_message"; 
+	private static final String NOMATCH = "Les mots de passe ne correspondent pas."; 
+	private static final String ERRORMESSAGE = "errorMessage"; 
 	private static final String ACTION = "action"; 
 	private static final String SUCCESS = "success"; 
 	
@@ -80,17 +80,22 @@ public class UserServlet extends HttpServlet {
 		 final String sexe = request.getParameter("sexe");
 		
 		 if (login != null && password != null) {
-			 if(password.equals(confirm)){
-				 if (this.userManager.checkLogin(login)) {
-					 request.setAttribute(UserServlet.ERRORMESSAGE, "User already exists. Please chose another");
-				 } else {
+			 if (this.userManager.checkLogin(login)) {
+				 request.setAttribute(UserServlet.ERRORMESSAGE, "Cet adresse mail est déjà utilisée.");
+				 request.getRequestDispatcher("/WEB-INF/html/signup.jsp").forward(request, response);
+				 return;
+			 } else {
+				 if(password.equals(confirm)){
 					 this.userManager.createUser(login, password, lastName, firstName, birthDate, sexe);
 					 request.setAttribute(UserServlet.SUCCESS, "User succesfully created");
-					 response.sendRedirect("userConfirm");
+					 response.sendRedirect("confirmUser");
+					 return;
+				 } else { 
+					 request.setAttribute(UserServlet.ERRORMESSAGE, UserServlet.NOMATCH);
+					 request.getRequestDispatcher("/WEB-INF/html/signup.jsp").forward(request, response);
 					 return;
 				 }
 			 }
-			 request.setAttribute(UserServlet.ERRORMESSAGE, UserServlet.NOMATCH);
 		 }
 		 request.setAttribute(UserServlet.ACTION, "create");
 		 request.getRequestDispatcher("/WEB-INF/html/signup.jsp").forward(request, response);
@@ -108,8 +113,8 @@ public class UserServlet extends HttpServlet {
 			final String id = request.getParameter("id");
 			final String sexe = request.getParameter("sexe");
 			final String password = request.getParameter(UserServlet.PWD) != null ? MD5.getMD5(request.getParameter(UserServlet.PWD)) : request.getParameter(UserServlet.PWD);
-			final String confirm = request.getParameter("password_confirmation") != null ? MD5.getMD5(request.getParameter(UserServlet.NEWPWD)) : null; // u.getPassword();
-			final String newPass = request.getParameter(UserServlet.NEWPWD) != null ? MD5.getMD5(request.getParameter(UserServlet.NEWPWD)) : null; //u.getPassword();
+			final String confirm = request.getParameter("password_confirmation") != null ? MD5.getMD5(request.getParameter(UserServlet.NEWPWD)) : null;
+			final String newPass = request.getParameter(UserServlet.NEWPWD) != null ? MD5.getMD5(request.getParameter(UserServlet.NEWPWD)) : null;
 			
 			if(id != null) {
 				if(newPass.equals(confirm) && password.equals(((User)request.getSession().getAttribute(UserServlet.USER_SESSION)).getPassword())){
