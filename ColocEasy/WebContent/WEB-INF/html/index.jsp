@@ -17,7 +17,7 @@
 				<div class="row center">
 					<c:choose>
 					<c:when test="${sessionScope.userSession != null }">
-						<a href="coloc/list" id="signup-button" class="btn-large waves-effect waves-light deep-orange lighten-1">Se Lancer</a>
+						<a href="list" id="signup-button" class="btn-large waves-effect waves-light deep-orange lighten-1">Voir la liste</a>
 					</c:when>
 					<c:otherwise>
 						<a href="signup" id="signup-button" class="btn-large waves-effect waves-light deep-orange lighten-1">Se Lancer</a>
