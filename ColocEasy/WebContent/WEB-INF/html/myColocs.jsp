@@ -7,10 +7,45 @@
 	<main> 
 	<div class="container">
 		<div class="row">
-			<h3>Colocs ajoutées</h3>
-			Oui oui oui
-			<h3>Colocs rejointes</h3>
-			Oui oui oui
+			<c:choose>
+				<c:when test="${sessionScope.userSession != null}">
+					<c:choose>
+						<c:when test="${empty colocList }">
+							Vous n'avez ajouté aucune colocation.
+						</c:when>
+						<c:otherwise>
+							<h3>Colocs ajoutées</h3>
+							<c:forEach items="${colocList }" var="coloc" varStatus="loop">
+								<c:if test="${loop.index%3 == 0}">
+									<div class="row">
+								</c:if>
+								<div class="col s12 m4">
+									<div class="card">
+										    <div class="card-image waves-effect waves-block waves-light">
+										      	<img class="activator" src="img/background3.jpg">
+										    </div>
+										    <div class="card-content">
+												<span class="card-title activator grey-text text-darken-4"><c:out value="${coloc.titre }"></c:out><i class="material-icons right">more_vert</i></span>
+											    <p><a href="<c:url value="coloc?id=${coloc.id }"/>">Voir</a></p>
+										    </div>
+										    <div class="card-reveal">
+											    <span class="card-title grey-text text-darken-4"><c:out value="${coloc.titre }"></c:out><i class="material-icons right">close</i></span>
+											    <p><c:out value="${coloc.description }"></c:out></p>
+										    </div>
+									  </div>
+								</div>
+								<c:if test="${loop.index%3 == 2}">
+									</div>
+								</c:if>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+				</c:when>
+				<c:otherwise>
+					Vous devez être connecté pour accéder à cette page. 
+					<a href="login" class="btn-large waves-effect waves-light deep-orange lighten-1">Connexion</a>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 	</main>
