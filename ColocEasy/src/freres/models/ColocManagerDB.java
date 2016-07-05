@@ -21,6 +21,7 @@ public class ColocManagerDB implements IColocManager {
 	private static final String DESCRIPTION = "description";
 	private static final String RENT = "rent";
 	private static final String ENABLED = "isEnabled";
+	private static final String OWNER = "idOwner";
 	
 	public ColocManagerDB() {
 		try {
@@ -42,7 +43,7 @@ public class ColocManagerDB implements IColocManager {
 		int result = 0;
 		try {
 			
-			String userSQL = "INSERT INTO coloc(district, surface, capacity, rooms, title, description, rent, isEnabled, id_utilisateur) VALUES(?, ?, ?, ?, ?, ?, ?, true, ? );";
+			String userSQL = "INSERT INTO coloc(district, surface, capacity, rooms, title, description, rent, isEnabled, idOwner) VALUES(?, ?, ?, ?, ?, ?, ?, true, ? );";
 			stmt = this.connection.prepareStatement(userSQL, Statement.RETURN_GENERATED_KEYS);
 			
 			stmt.setInt(1, district);
@@ -88,7 +89,8 @@ public class ColocManagerDB implements IColocManager {
 				String title = rs.getString(ColocManagerDB.TITLE);
 				String description = rs.getString(ColocManagerDB.DESCRIPTION);
 				Integer isEnabled = rs.getInt(ColocManagerDB.ENABLED);
-				coloc = new Coloc(id, district, surface, capacity, rooms, title, description, rent, isEnabled);
+				Integer idOwner = rs.getInt(ColocManagerDB.OWNER);
+				coloc = new Coloc(id, district, surface, capacity, rooms, title, description, rent, isEnabled, idOwner);
 			}
 			rs.close();
 			stmt.close();
@@ -118,7 +120,8 @@ public class ColocManagerDB implements IColocManager {
 				Integer rent = rs.getInt(ColocManagerDB.RENT);
 				String title = rs.getString(ColocManagerDB.TITLE);
 				String description = rs.getString(ColocManagerDB.DESCRIPTION);
-				Coloc coloc = new Coloc(id, district, surface, capacity, rooms, title, description, rent, 1);
+				Integer idOwner = rs.getInt(ColocManagerDB.OWNER);
+				Coloc coloc = new Coloc(id, district, surface, capacity, rooms, title, description, rent, 1, idOwner);
 				colocList.add(coloc);
 			}
 			rs.close();
@@ -130,12 +133,75 @@ public class ColocManagerDB implements IColocManager {
 	}
 
 	@Override
-	public boolean editColoc(Integer id, Integer surface, Integer capacity, Integer rooms, String titre, String description, Integer rent, Integer idOwner) {
+	public List<Coloc> getMine(Integer owner){
+		List<Coloc> colocList = new ArrayList<>();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try{
+			String listSQL = "SELECT * FROM coloc WHERE idOwner = ?";
+			stmt = this.connection.prepareStatement(listSQL);
+			
+			stmt.setInt(1, owner);
+			
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				Integer id = rs.getInt(ColocManagerDB.ID);
+				Integer capacity = rs.getInt(ColocManagerDB.CAPACITY);
+				Integer district = rs.getInt(ColocManagerDB.DISTRICT);
+				Integer surface = rs.getInt(ColocManagerDB.SURFACE);
+				Integer rooms = rs.getInt(ColocManagerDB.ROOMS);
+				Integer rent = rs.getInt(ColocManagerDB.RENT);
+				String title = rs.getString(ColocManagerDB.TITLE);
+				String description = rs.getString(ColocManagerDB.DESCRIPTION);
+				Integer idOwner = rs.getInt(ColocManagerDB.OWNER);
+				Coloc coloc = new Coloc(id, district, surface, capacity, rooms, title, description, rent, 1, idOwner);
+				colocList.add(coloc);
+			}
+			rs.close();
+			stmt.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return colocList;
+	}
+	
+	@Override
+	public List<Coloc> getAll(){
+		List<Coloc> colocList = new ArrayList<>();
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			stmt = this.connection.createStatement();
+			String listSQL = "SELECT * FROM coloc WHERE isEnabled = 1";
+			rs = stmt.executeQuery(listSQL);
+			while(rs.next()){
+				Integer id = rs.getInt(ColocManagerDB.ID);
+				Integer capacity = rs.getInt(ColocManagerDB.CAPACITY);
+				Integer district = rs.getInt(ColocManagerDB.DISTRICT);
+				Integer surface = rs.getInt(ColocManagerDB.SURFACE);
+				Integer rooms = rs.getInt(ColocManagerDB.ROOMS);
+				Integer rent = rs.getInt(ColocManagerDB.RENT);
+				String title = rs.getString(ColocManagerDB.TITLE);
+				String description = rs.getString(ColocManagerDB.DESCRIPTION);
+				Integer idOwner = rs.getInt(ColocManagerDB.OWNER);
+				Coloc coloc = new Coloc(id, district, surface, capacity, rooms, title, description, rent, 1, idOwner);
+				colocList.add(coloc);
+			}
+			rs.close();
+			stmt.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return colocList;
+	}
+	
+	@Override
+	public boolean editColoc(Integer id, Integer district, Integer surface, Integer capacity, Integer rooms, String titre, String description, Integer rent, Integer enabled) {
 		PreparedStatement stmt = null;
 		int result = 0;
 		
-		String sql = "UPDATE coloc SET surface=?, capacity=?, rooms=?, titre=?, description=?, rent=?, idOwner=?";
 		try {
+			String sql = "UPDATE coloc SET surface=?, capacity=?, rooms=?, title=?, description=?, rent=?, district=?, enabled=? WHERE id = ?";
 			stmt = this.connection.prepareStatement(sql);
 
 			stmt.setInt(1, surface);
@@ -144,9 +210,12 @@ public class ColocManagerDB implements IColocManager {
 			stmt.setString(4, titre);
 			stmt.setString(5, description);
 			stmt.setInt(6, rent);
-			stmt.setInt(7, idOwner);
+			stmt.setInt(7, district);
+			stmt.setInt(8, enabled);
+			stmt.setInt(9, id);
 			
 			result = stmt.executeUpdate();
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

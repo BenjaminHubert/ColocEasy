@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -24,16 +25,16 @@ import freres.models.User;
 @WebServlet(
 		name = "coloc-servlet", 
 		description = "Servlet handling colocs", 
-		urlPatterns = { "/coloc", "/addColoc", "/editColoc", "/myColocs", "/confirmColoc"})
+		urlPatterns = { "/coloc", "/list", "/addColoc", "/editColoc", "/myColocs", "/confirmColoc", "/confirmEditColoc"})
 //UPLOAD
-@MultipartConfig(location="D:/ColocEasy/tmp",
-				 fileSizeThreshold=1024*1024*2, // 2MB
+@MultipartConfig(fileSizeThreshold=1024*1024*2, // 2MB
                  maxFileSize=1024*1024*10,      // 10MB
                  maxRequestSize=1024*1024*50)   // 50MB
 //UPLOAD
 public class ColocServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private static final String SAVE_DIR = "D:/ColocEasy";
+    private static final String SAVE_DIR = "upload_img";
+	private static final String ERRORMESSAGE = "errorMessage";
     
 	private IColocManager colocManager = new ColocManagerDB();
     private IImageManager imageManager = new ImageManagerDB();
@@ -46,6 +47,8 @@ public class ColocServlet extends HttpServlet {
 		final String uri = request.getRequestURI();
 		if (uri.contains("/coloc")) {
 			this.coloc(request, response);
+		} else if(uri.contains("/list")) {
+			this.list(request, response);
 		} else if (uri.contains("/addColoc")) {
 			this.add(request, response);
 		} else if  (uri.contains("/editColoc")) {
@@ -54,6 +57,8 @@ public class ColocServlet extends HttpServlet {
 			this.mine(request, response);
 		} else if(uri.contains("/confirmColoc")) {
 			this.getServletContext().getRequestDispatcher("/WEB-INF/html/confirmColoc.jsp").forward(request, response);
+		} else if(uri.contains("/confirmEditColoc")) {
+			this.getServletContext().getRequestDispatcher("/WEB-INF/html/confirmEditColoc.jsp").forward(request, response);
 		}
 	}
 
@@ -81,74 +86,109 @@ public class ColocServlet extends HttpServlet {
 	}
 	
 	private void add(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		final Integer capacity = request.getParameter("capacity") != null ? Integer.parseInt(request.getParameter("capacity")) : null;
-		final String description = request.getParameter("description");
-		final Integer district = request.getParameter("district") != null ? Integer.parseInt(request.getParameter("district")) : null;
-		final Float rent = request.getParameter("rent") != null ? Float.parseFloat(request.getParameter("rent")) : null;
-		final Integer rooms = request.getParameter("rooms") != null ? Integer.parseInt(request.getParameter("rooms")) : null;
-		final Integer surface = request.getParameter("surface") != null ? Integer.parseInt(request.getParameter("surface")) : null;
-		final String title = request.getParameter("title");
-		final Integer idOwner = request.getSession().getAttribute("userSession") != null  ? ((User)request.getSession().getAttribute("userSession")).getId() : null;
-		//DÉBUT GESTION UPLOAD
-		ArrayList<String> imageList = new ArrayList<String>();
-		
-		if(request.getMethod().equals("POST")){
-	        
-	        File uploads = new File(ColocServlet.SAVE_DIR); 
-	        for (Part part : request.getParts()) { 
-	            String fileName = createFileName(part, idOwner);
-	            if(!fileName.isEmpty()){
-	            	imageList.add(fileName);
-	            }
-	            File f = new File(fileName);
-	            File file = new File(uploads, f.getName());
-	            try(InputStream input = part.getInputStream()){
-	            	Files.copy(input, file.toPath());
-	            } catch (Exception e) {
+		if(request.getSession().getAttribute("userSession") != null){
+			final Integer capacity = request.getParameter("capacity") != null ? Integer.parseInt(request.getParameter("capacity")) : null;
+			final String description = request.getParameter("description");
+			final Integer district = request.getParameter("district") != null ? Integer.parseInt(request.getParameter("district")) : null;
+			final Float rent = request.getParameter("rent") != null ? Float.parseFloat(request.getParameter("rent")) : null;
+			final Integer rooms = request.getParameter("rooms") != null ? Integer.parseInt(request.getParameter("rooms")) : null;
+			final Integer surface = request.getParameter("surface") != null ? Integer.parseInt(request.getParameter("surface")) : null;
+			final String title = request.getParameter("title");
+			final Integer idOwner = request.getSession().getAttribute("userSession") != null  ? ((User)request.getSession().getAttribute("userSession")).getId() : null;
+			
+			ArrayList<String> imageList = new ArrayList<String>();
 
-	            }
-	        }
-		}
-		//FIN GESTION UPLOAD
-		if(capacity != null && description != null && district != null && rent != null && rooms!= null && surface!= null && title!= null){
-			int idC = this.colocManager.createColoc(district, surface, capacity, rooms, title, description, rent, idOwner);
-			//INSERT IMAGE
-			for(String path : imageList){
-				this.imageManager.createImage(path, idC);
+			if(request.getMethod().equals("POST")){
+				//TODO: Vérifier l'intégrité des champs
+				String[] supportedContentTypes = { "image/jpeg", "image/png"};
+		        String appPath = request.getServletContext().getRealPath("");
+		        String savePath = appPath + File.separator + SAVE_DIR;
+		        
+		        File fileSaveDir = new File(savePath);
+		        if(!fileSaveDir.exists()){
+		        	fileSaveDir.mkdir();
+		        }
+		        for (Part part : request.getParts()) { 
+		        	String fileName = createFileName(part, idOwner);
+		            String contentType = part.getContentType();
+		            
+		            if(fileName == null || fileName.isEmpty()) continue;
+		            if(contentType == null || contentType.isEmpty()) continue;
+		            if(!Arrays.asList(supportedContentTypes).contains(contentType)) continue;
+		            
+		            part.write(savePath + File.separator + fileName);
+		            imageList.add(fileName);
+		        }
 			}
-			response.sendRedirect("confirmColoc");
-			return;
+			if(capacity != null && description != null && district != null && rent != null && rooms!= null && surface!= null && title!= null){
+				int idC = this.colocManager.createColoc(district, surface, capacity, rooms, title, description, rent, idOwner);
+				//INSERT IMAGE
+				for(String path : imageList){
+					this.imageManager.createImage(path, idC);
+				}
+				response.sendRedirect("confirmColoc");
+				return;
+			}
+			request.setAttribute("action", "add");
 		}
-		request.setAttribute("action", "add");
+		
 		request.getRequestDispatcher("/WEB-INF/html/addColoc.jsp").forward(request, response);
 	}
 
 	private void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		final Integer capacity = request.getParameter("capacity") != null ? Integer.parseInt(request.getParameter("capacity")) : null;
-		final String description = request.getParameter("description");
-		final Integer district = request.getParameter("district") != null ? Integer.parseInt(request.getParameter("district")) : null;
-		final Float rent = request.getParameter("rent") != null ? Float.parseFloat(request.getParameter("rent")) : null;
-		final Integer rooms = request.getParameter("rooms") != null ? Integer.parseInt(request.getParameter("rooms")) : null;
-		final Integer surface = request.getParameter("surface") != null ? Integer.parseInt(request.getParameter("surface")) : null;
-		final String title = request.getParameter("title");
-		final Integer idOwner = request.getSession().getAttribute("userSession") != null  ? ((User)request.getSession().getAttribute("userSession")).getId() : null;
-		
-		//Créer une coloc à partir de l'id récupéré en GET pour remplir les champs de la vue
-		if(request.getMethod().equals("POST")){
-			//Faire un input caché dans la vue qui contient l'id coloc
-			//Vérifier que la coloc appartient à l'utilisateur
-			//Faire l'édition
+
+		if(request.getSession().getAttribute("userSession") != null){
+			final Integer id = Integer.parseInt(request.getParameter("id"));
+			Coloc c = this.colocManager.getColoc(id);
+			request.setAttribute("coloc", c);
+			
+			final Integer capacity = request.getParameter("capacity") != null ? Integer.parseInt(request.getParameter("capacity")) : null;
+			final String description = request.getParameter("description");
+			final Integer district = request.getParameter("district") != null ? Integer.parseInt(request.getParameter("district")) : null;
+			final Integer enabled = request.getParameter("enabled") == "on" ? 1 : 0;
+			final Integer rent = request.getParameter("rent") != null ? Integer.parseInt(request.getParameter("rent")) : null;
+			final Integer rooms = request.getParameter("rooms") != null ? Integer.parseInt(request.getParameter("rooms")) : null;
+			final Integer surface = request.getParameter("surface") != null ? Integer.parseInt(request.getParameter("surface")) : null;
+			final String title = request.getParameter("title");
+			final Integer idOwner = request.getSession().getAttribute("userSession") != null  ? ((User)request.getSession().getAttribute("userSession")).getId() : null;
+
+			if(idOwner == c.getIdOwner()){
+				request.setAttribute("imageList", this.imageManager.getColocImages(c.getId()));
+			} else {
+				request.setAttribute("forbidden", 1);
+			}
+			
+			if(request.getMethod().equals("POST")){
+				//TODO: Vérifier l'intégrité des champs
+				if(capacity != null && description != null && district != null && rent != null && rooms!= null && surface!= null && title!= null && enabled !=null){
+					if(this.colocManager.editColoc(id, district, surface, capacity, rooms, title, description, rent, enabled)){
+						response.sendRedirect("confirmEditColoc");
+						return;
+					} else {
+						 request.setAttribute(ColocServlet.ERRORMESSAGE, "Une erreur s'est produite lors de l'édition.");
+					}
+				}
+			}
+			request.setAttribute("action", "edit");
 		}
-		request.setAttribute("action", "edit");
 		request.getRequestDispatcher("/WEB-INF/html/editColoc.jsp").forward(request, response);
-		
 	}
 	
 	private void mine(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		request.setAttribute("action", "mine");
+		final Integer idOwner = request.getSession().getAttribute("userSession") != null  ? ((User)request.getSession().getAttribute("userSession")).getId() : null;
+		if(idOwner != null){
+			request.setAttribute("colocList", this.colocManager.getMine(idOwner));
+		}
 		request.getRequestDispatcher("/WEB-INF/html/myColocs.jsp").forward(request, response);
 	}
-	
+
+
+	private void list(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		if(request.getSession().getAttribute("userSession") != null){
+			request.setAttribute("colocList", this.colocManager.getAll());
+		}
+		request.getRequestDispatcher("/WEB-INF/html/list.jsp").forward(request, response);		
+	}
 	//UPLOAD
 	private String createFileName(Part part, Integer idOwner) {
 	    String contentDisp = part.getHeader("content-disposition");

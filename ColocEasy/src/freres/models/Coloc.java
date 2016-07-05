@@ -10,8 +10,9 @@ public class Coloc {
 	private String 	description;
 	private Integer	rent;
 	private Integer isEnabled;
+	private Integer idOwner;
 	
-	public Coloc(Integer id, Integer district, Integer surface, Integer capacity, Integer rooms, String titre, String description, Integer rent, Integer isEnabled){
+	public Coloc(Integer id, Integer district, Integer surface, Integer capacity, Integer rooms, String titre, String description, Integer rent, Integer isEnabled, Integer idOwner){
 		this.id = id;
 		this.district = district;
 		this.surface = surface;
@@ -21,6 +22,7 @@ public class Coloc {
 		this.description = description;
 		this.rent = rent;
 		this.isEnabled = isEnabled;
+		this.idOwner = idOwner;
 	}
 
 	public Coloc(){
@@ -33,6 +35,7 @@ public class Coloc {
 		this.description = null;
 		this.rent = null;
 		this.isEnabled = null;
+		this.idOwner = null;
 	}
 	
 	public Integer getId() {
@@ -106,5 +109,12 @@ public class Coloc {
 	public void setIsEnabled(Integer isEnabled) {
 		this.isEnabled = isEnabled;
 	}
-	
+
+	public Integer getIdOwner() {
+		return idOwner;
+	}
+
+	public void setIdOwner(Integer idOwner) {
+		this.idOwner = idOwner;
+	}
 }
