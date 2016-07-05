@@ -6,7 +6,7 @@
 	<jsp:directive.include file="navBar.jsp" />
 	<main> 
 		<div class="container">
-			L'édition s'est bien passé ! :)
+			L'édition s'est bien passée ! :)
 		</div>
 	</main>
 	<jsp:directive.include file="footer.jsp" />
