@@ -166,17 +166,68 @@ public class ColocManagerDB implements IColocManager {
 	}
 	
 	@Override
-	public List<Coloc> filterColocs(String sql){
+	public List<Coloc> filterColocs(String[] districts, Integer minRent, Integer maxRent, Integer minSurface, Integer maxSurface){
 		List<Coloc> colocList = new ArrayList<>();
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			stmt = this.connection.createStatement();
-			String listSQL = "SELECT * FROM coloc WHERE isEnabled = 1";
-			if (sql != null) {
-				listSQL += sql;
+			String sql = "SELECT * FROM coloc WHERE isEnabled = 1";
+			
+			int index = 0;
+			if(districts != null){
+				for(String district : districts){
+					if(index == 0){
+						sql += " AND ";
+					} else {
+						sql += " OR ";
+					}
+					//sql += "district = "+district;
+					sql += "district = ?";
+					index++;
+				}
 			}
-			rs = stmt.executeQuery(listSQL);
+			if(minRent != null) {
+				//sql += " AND rent >= "+minRent;
+				sql += " AND rent >= ?";
+				index++;
+			}
+			if(maxRent != null) {
+				//sql += " AND rent <= "+maxRent;
+				sql += " AND rent <= ?";
+				index++;
+			}
+			if(minSurface != null) {
+				//sql += " AND surface >= "+minSurface;
+				sql += " AND surface >= ?";
+				index++;
+			}
+			if(maxSurface != null) {
+				//sql += " AND surface <= "+maxSurface;
+				sql += " AND surface <= ?";
+				index++;
+			}
+			
+			stmt = this.connection.prepareStatement(sql);
+			int i = 1;
+			if(districts != null){
+				for(String district : districts){
+					stmt.setInt(i++, Integer.parseInt(district));
+				}
+			}
+			if(minRent != null) {
+				stmt.setInt(i++, minRent);
+			}
+			if(maxRent != null) {
+				stmt.setInt(i++, maxRent);
+			}
+			if(minSurface != null) {
+				stmt.setInt(i++, minSurface);
+			}
+			if(maxSurface != null) {
+				stmt.setInt(i++, maxSurface);
+			}
+			
+			rs = stmt.executeQuery();
 			while(rs.next()){
 				Integer id = rs.getInt(ColocManagerDB.ID);
 				Integer capacity = rs.getInt(ColocManagerDB.CAPACITY);

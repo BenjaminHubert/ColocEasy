@@ -2,8 +2,6 @@ package freres.servlets;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
@@ -84,7 +82,7 @@ public class ColocServlet extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return;
 		}
-		request.setAttribute("action", "coloc");
+		
 		request.getRequestDispatcher("/WEB-INF/html/coloc.jsp").forward(request, response);
 	}
 	
@@ -115,9 +113,12 @@ public class ColocServlet extends HttpServlet {
 		        	String fileName = createFileName(part, idOwner);
 		            String contentType = part.getContentType();
 		            
-		            if(fileName == null || fileName.isEmpty()) continue;
-		            if(contentType == null || contentType.isEmpty()) continue;
-		            if(!Arrays.asList(supportedContentTypes).contains(contentType)) continue;
+		            if(fileName == null || fileName.isEmpty()) 
+		            	continue;
+		            if(contentType == null || contentType.isEmpty()) 
+		            	continue;
+		            if(!Arrays.asList(supportedContentTypes).contains(contentType)) 
+		            	continue;
 		            
 		            part.write(savePath + File.separator + fileName);
 		            imageList.add(fileName);
@@ -132,7 +133,6 @@ public class ColocServlet extends HttpServlet {
 				response.sendRedirect("confirmColoc");
 				return;
 			}
-			request.setAttribute("action", "add");
 		}
 		
 		request.getRequestDispatcher("/WEB-INF/html/addColoc.jsp").forward(request, response);
@@ -177,9 +177,12 @@ public class ColocServlet extends HttpServlet {
 		        	String fileName = createFileName(part, idOwner);
 		            String contentType = part.getContentType();
 		            
-		            if(fileName == null || fileName.isEmpty()) continue;
-		            if(contentType == null || contentType.isEmpty()) continue;
-		            if(!Arrays.asList(supportedContentTypes).contains(contentType)) continue;
+		            if(fileName == null || fileName.isEmpty()) 
+		            	continue;
+		            if(contentType == null || contentType.isEmpty()) 
+		            	continue;
+		            if(!Arrays.asList(supportedContentTypes).contains(contentType)) 
+		            	continue;
 		            
 		            part.write(savePath + File.separator + fileName);
 		            imageList.add(fileName);
@@ -198,7 +201,6 @@ public class ColocServlet extends HttpServlet {
 					}
 				}
 			}
-			request.setAttribute("action", "edit");
 		}
 		request.getRequestDispatcher("/WEB-INF/html/editColoc.jsp").forward(request, response);
 	}
@@ -225,38 +227,14 @@ public class ColocServlet extends HttpServlet {
 
 	private void list(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		if(request.getSession().getAttribute("userSession") != null){
-			String sql = "";
 
+			Integer minRent = request.getParameter("sMinRent") != null && request.getParameter("sMinRent") != "" ? Integer.parseInt(request.getParameter("sMinRent")) : null;
+			Integer maxRent = request.getParameter("sMaxRent") != null && request.getParameter("sMaxRent") != "" ? Integer.parseInt(request.getParameter("sMaxRent")) : null;
+			Integer minSurface = request.getParameter("sMinSurface") != null && request.getParameter("sMinSurface") != "" ? Integer.parseInt(request.getParameter("sMinSurface")) : null;
+			Integer maxSurface = request.getParameter("sMaxSurface") != null && request.getParameter("sMaxSurface") != "" ? Integer.parseInt(request.getParameter("sMaxSurface")) : null;
 			String [] districts = request.getParameterValues("district");
-			int index = 0;
-			for(String district : districts){
-				if(index == 0){
-					sql += " AND ";
-				} else {
-					sql += " OR ";
-				}
-				sql += "district = "+district;
-				index++;
-			}
 			
-			Integer minRent = request.getParameter("sMinRent") != "" ? Integer.parseInt(request.getParameter("sMinRent")) : null;
-			Integer maxRent = request.getParameter("sMaxRent") != "" ? Integer.parseInt(request.getParameter("sMaxRent")) : null;
-			Integer minSurface = request.getParameter("sMinSurface") != "" ? Integer.parseInt(request.getParameter("sMinSurface")) : null;
-			Integer maxSurface = request.getParameter("sMaxSurface") != "" ? Integer.parseInt(request.getParameter("sMaxSurface")) : null;
-			if(minRent != null) {
-				sql += " AND rent >= "+minRent;
-			}
-			if(maxRent != null) {
-				sql += " AND rent <= "+maxRent;
-			}
-			if(minSurface != null) {
-				sql += " AND surface >= "+minSurface;
-			}
-			if(maxSurface != null) {
-				sql += " AND surface <= "+maxSurface;
-			}
-			
-			request.setAttribute("colocList", this.colocManager.filterColocs(sql));
+			request.setAttribute("colocList", this.colocManager.filterColocs(districts, minRent, maxRent, minSurface, maxSurface));
 		}
 		request.getRequestDispatcher("/WEB-INF/html/list.jsp").forward(request, response);		
 	}
