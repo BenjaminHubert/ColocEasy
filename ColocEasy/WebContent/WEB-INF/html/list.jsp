@@ -9,13 +9,61 @@
 		<div class="row">
 			<c:choose>
 				<c:when test="${sessionScope.userSession != null}">
+					<h3>Liste des colocations</h3>
+					<div class="row">
+						<form method="get" action="">
+							<div class="input-field col s4">
+								<select multiple name="district">
+									<option value="" disabled selected>Arrondissement</option>
+									<option value="1">1<sup>er</sup></option>
+									<option value="2">2<sup>ème</sup></option>
+									<option value="3">3<sup>ème</sup></option>
+									<option value="4">4<sup>ème</sup></option>
+									<option value="5">5<sup>ème</sup></option>
+									<option value="6">6<sup>ème</sup></option>
+									<option value="7">7<sup>ème</sup></option>
+									<option value="8">8<sup>ème</sup></option>
+									<option value="9">9<sup>ème</sup></option>
+									<option value="10">10<sup>ème</sup></option>
+									<option value="11">11<sup>ème</sup></option>
+									<option value="12">12<sup>ème</sup></option>
+									<option value="13">13<sup>ème</sup></option>
+									<option value="14">14<sup>ème</sup></option>
+									<option value="15">15<sup>ème</sup></option>
+									<option value="16">16<sup>ème</sup></option>
+									<option value="17">17<sup>ème</sup></option>
+									<option value="18">18<sup>ème</sup></option>
+									<option value="19">19<sup>ème</sup></option>
+									<option value="20">20<sup>ème</sup></option>
+								</select>
+								<label>Arrondissement</label>
+							</div>
+							<div class="input-field col s2">
+								<input type="number" name="sMinSurface" value="${param.sMinSurface }">
+								<label>Surface min</label>
+							</div>
+							<div class="input-field col s2">
+								<input type="number" name="sMaxSurface" value="${param.sMaxSurface }">
+								<label>Surface max</label>
+							</div>
+							<div class="input-field col s2">
+								<input type="number" name="sMinRent" value="${param.sMinRent }">
+								<label>Loyer min</label>
+							</div>
+							<div class="input-field col s2">
+								<input type="number" name="sMaxRent" value="${param.sMaxRent }">
+								<label>Loyer max</label>
+							</div>
+							<div class="row">
+								<button class="waves-effect waves-light btn right deep-orange lighten-1">Rechercher</button>
+							</div>
+						</form>
+					</div>
 					<c:choose>
 						<c:when test="${empty colocList }">
 							La liste est vide :'(
 						</c:when>
 						<c:otherwise>
-							<h3>Liste des colocations</h3>
-							<div class="row"> Div filtre </div>
 							<c:forEach items="${colocList }" var="coloc" varStatus="loop">
 								<c:if test="${loop.index%3 == 0}">
 									<div class="row">

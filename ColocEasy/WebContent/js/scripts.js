@@ -1,4 +1,3 @@
-
 /**
  * Traduction du datepicker
  */
@@ -19,11 +18,6 @@ jQuery.extend( jQuery.fn.pickadate.defaults, {
     labelYearSelect:"Sélectionner une année"
 });
 
-
-
-/**
-* Activer le slideshow
-*/
 $(document).ready(function(){
 	// Activer le menu responsive
 	$(".button-collapse").sideNav();
@@ -37,4 +31,8 @@ $(document).ready(function(){
 	 });
 	// Activer le slider
 	$('.slider').slider();
+	//Activer les onglets
+    $('ul.tabs').tabs();
+    //Activer les select
+    $('select').material_select();
 });

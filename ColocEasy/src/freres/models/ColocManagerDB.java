@@ -166,13 +166,16 @@ public class ColocManagerDB implements IColocManager {
 	}
 	
 	@Override
-	public List<Coloc> getAll(){
+	public List<Coloc> filterColocs(String sql){
 		List<Coloc> colocList = new ArrayList<>();
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
 			stmt = this.connection.createStatement();
 			String listSQL = "SELECT * FROM coloc WHERE isEnabled = 1";
+			if (sql != null) {
+				listSQL += sql;
+			}
 			rs = stmt.executeQuery(listSQL);
 			while(rs.next()){
 				Integer id = rs.getInt(ColocManagerDB.ID);

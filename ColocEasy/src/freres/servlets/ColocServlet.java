@@ -211,6 +211,8 @@ public class ColocServlet extends HttpServlet {
 				this.imageManager.deleteImage(idImage);
 			}
 		}
+		response.sendRedirect("editColoc");
+		return;
 	}
 	
 	private void mine(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -223,7 +225,38 @@ public class ColocServlet extends HttpServlet {
 
 	private void list(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		if(request.getSession().getAttribute("userSession") != null){
-			request.setAttribute("colocList", this.colocManager.getAll());
+			String sql = "";
+
+			String [] districts = request.getParameterValues("district");
+			int index = 0;
+			for(String district : districts){
+				if(index == 0){
+					sql += " AND ";
+				} else {
+					sql += " OR ";
+				}
+				sql += "district = "+district;
+				index++;
+			}
+			
+			Integer minRent = request.getParameter("sMinRent") != "" ? Integer.parseInt(request.getParameter("sMinRent")) : null;
+			Integer maxRent = request.getParameter("sMaxRent") != "" ? Integer.parseInt(request.getParameter("sMaxRent")) : null;
+			Integer minSurface = request.getParameter("sMinSurface") != "" ? Integer.parseInt(request.getParameter("sMinSurface")) : null;
+			Integer maxSurface = request.getParameter("sMaxSurface") != "" ? Integer.parseInt(request.getParameter("sMaxSurface")) : null;
+			if(minRent != null) {
+				sql += " AND rent >= "+minRent;
+			}
+			if(maxRent != null) {
+				sql += " AND rent <= "+maxRent;
+			}
+			if(minSurface != null) {
+				sql += " AND surface >= "+minSurface;
+			}
+			if(maxSurface != null) {
+				sql += " AND surface <= "+maxSurface;
+			}
+			
+			request.setAttribute("colocList", this.colocManager.filterColocs(sql));
 		}
 		request.getRequestDispatcher("/WEB-INF/html/list.jsp").forward(request, response);		
 	}
