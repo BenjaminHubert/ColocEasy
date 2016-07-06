@@ -201,7 +201,7 @@ public class ColocManagerDB implements IColocManager {
 		int result = 0;
 		
 		try {
-			String sql = "UPDATE coloc SET surface=?, capacity=?, rooms=?, title=?, description=?, rent=?, district=?, enabled=? WHERE id = ?";
+			String sql = "UPDATE coloc SET surface=?, capacity=?, rooms=?, title=?, description=?, rent=?, district=?, isEnabled=? WHERE id = ?";
 			stmt = this.connection.prepareStatement(sql);
 
 			stmt.setInt(1, surface);

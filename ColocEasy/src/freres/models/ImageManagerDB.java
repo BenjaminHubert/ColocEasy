@@ -46,6 +46,23 @@ public class ImageManagerDB implements IImageManager{
 		return result == 1;
 	}
 
+	public boolean deleteImage(Integer idImage) {
+		PreparedStatement stmt = null;
+		int result = 0;
+		try {
+			String userSQL = "DELETE FROM picture WHERE id = ?";
+			stmt = this.connection.prepareStatement(userSQL);
+			
+			stmt.setInt(1, idImage);
+			
+			result = stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		return result == 1;
+	}
+	
 	@Override
 	public List<Image> getColocImages(Integer idColoc) {
 		List<Image> imageList = new ArrayList<>();
