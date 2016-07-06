@@ -117,7 +117,7 @@ public class UserServlet extends HttpServlet {
 			final String newPass = request.getParameter(UserServlet.NEWPWD) != null ? MD5.getMD5(request.getParameter(UserServlet.NEWPWD)) : null;
 			
 			if(id != null) {
-				if(newPass.equals(confirm) && password.equals(((User)request.getSession().getAttribute(UserServlet.USER_SESSION)).getPassword())){
+				if(newPass != null && newPass.equals(confirm) && password.equals(((User)request.getSession().getAttribute(UserServlet.USER_SESSION)).getPassword())){
 					if(this.userManager.editUser(id, login, newPass, lastName, firstName, birthDate, sexe)){
 						request.getSession().setAttribute(UserServlet.USER_SESSION, this.userManager.getUser(Integer.parseInt(id)));
 						request.setAttribute(UserServlet.SUCCESS, "The user "+login+" has been updated.");
