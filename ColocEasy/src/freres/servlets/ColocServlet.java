@@ -18,8 +18,10 @@ import freres.models.Coloc;
 import freres.models.ColocManagerDB;
 import freres.models.IColocManager;
 import freres.models.IImageManager;
+import freres.models.IUserManager;
 import freres.models.ImageManagerDB;
 import freres.models.User;
+import freres.models.UserManagerDB;
 
 @WebServlet(
 		name = "coloc-servlet", 
@@ -37,6 +39,7 @@ public class ColocServlet extends HttpServlet {
     
 	private IColocManager colocManager = new ColocManagerDB();
     private IImageManager imageManager = new ImageManagerDB();
+    private IUserManager  userManager = new UserManagerDB();
 	
     public ColocServlet() {
         super();
@@ -74,6 +77,7 @@ public class ColocServlet extends HttpServlet {
 			if(c != null){
 				request.setAttribute("coloc", c);
 				request.setAttribute("imageList", this.imageManager.getColocImages(c.getId()));
+				request.setAttribute("owner", this.userManager.getUser(c.getIdOwner()));
 			} else {
 				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 				return;
@@ -235,6 +239,7 @@ public class ColocServlet extends HttpServlet {
 			String [] districts = request.getParameterValues("district");
 			
 			request.setAttribute("colocList", this.colocManager.filterColocs(districts, minRent, maxRent, minSurface, maxSurface));
+			
 		}
 		request.getRequestDispatcher("/WEB-INF/html/list.jsp").forward(request, response);		
 	}

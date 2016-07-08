@@ -46,6 +46,10 @@
 								      <div class="collapsible-header"><i class="material-icons">subject</i>Description</div>
 								      <div class="collapsible-body"><p><c:out value="${requestScope.coloc.description }"></c:out></p></div>
 								    </li>
+								    <li>
+								      <div class="collapsible-header"><i class="material-icons">email</i>Contact</div>
+								      <div class="collapsible-body"><p>Cette colocation est proposée par <c:out value="${requestScope.owner.firstName }"></c:out>. Pour prendre contact et éventuellement obtenir de plus amples informations, envoyez un mail à <c:out value="${requestScope.owner.login}"></c:out></p></div>
+								    </li>
 								</ul>
 							</div>
 						</div>
