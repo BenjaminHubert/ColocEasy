@@ -20,7 +20,7 @@ public class ImageManagerDB implements IImageManager{
 	}
 	
 	public Connection getConnection() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-	  String url = "jdbc:mysql://localhost:3306/coloceasy"; 
+	  String url = "jdbc:mysql://localhost:3306/coloceasy?useUnicode=true&characterEncoding=utf-8"; 
 	  Class.forName("com.mysql.jdbc.Driver").newInstance();
 	  return DriverManager.getConnection(url,"root","root");
 	}
@@ -87,5 +87,57 @@ public class ImageManagerDB implements IImageManager{
 			e.printStackTrace();
 		}
 		return imageList;
+	}
+
+	public Image getImage(Integer idColoc) {
+		Image img = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			String sql = "SELECT * FROM picture WHERE id_coloc = ? AND id = (SELECT MIN(id) FROM picture WHERE id_coloc = ?)";
+			stmt = this.connection.prepareStatement(sql);
+
+			stmt.setInt(1, idColoc);
+			stmt.setInt(2, idColoc);
+			rs = stmt.executeQuery();
+			
+			Integer id = rs.getInt("id");
+			String path = rs.getString("path");
+			Integer idC = rs.getInt("id_coloc");
+			img = new Image(id, path, idC);
+			
+			rs.close();
+			stmt.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return img;
+	}
+
+	@Override
+	public Image getPreview(Integer idColoc) {
+		Image image = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try{
+			String sql = "SELECT * FROM picture WHERE id_coloc = ? LIMIT 1";
+			stmt = this.connection.prepareStatement(sql);
+			
+			stmt.setInt(1, idColoc);
+			rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				Integer id = rs.getInt("id");
+				String path = rs.getString("path");
+				image = new Image(id, path, idColoc);
+			}
+			
+			rs.close();
+			stmt.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return image;
 	}
 }

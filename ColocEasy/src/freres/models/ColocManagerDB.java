@@ -32,7 +32,7 @@ public class ColocManagerDB implements IColocManager {
 	}
 	
 	public Connection getConnection() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-	  String url = "jdbc:mysql://localhost:3306/coloceasy"; 
+	  String url = "jdbc:mysql://localhost:3306/coloceasy?useUnicode=true&characterEncoding=utf-8"; 
 	  Class.forName("com.mysql.jdbc.Driver").newInstance();
 	  return DriverManager.getConnection(url,"root","root");
 	}
@@ -181,28 +181,23 @@ public class ColocManagerDB implements IColocManager {
 					} else {
 						sql += " OR ";
 					}
-					//sql += "district = "+district;
 					sql += "district = ?";
 					index++;
 				}
 			}
 			if(minRent != null) {
-				//sql += " AND rent >= "+minRent;
 				sql += " AND rent >= ?";
 				index++;
 			}
 			if(maxRent != null) {
-				//sql += " AND rent <= "+maxRent;
 				sql += " AND rent <= ?";
 				index++;
 			}
 			if(minSurface != null) {
-				//sql += " AND surface >= "+minSurface;
 				sql += " AND surface >= ?";
 				index++;
 			}
 			if(maxSurface != null) {
-				//sql += " AND surface <= "+maxSurface;
 				sql += " AND surface <= ?";
 				index++;
 			}

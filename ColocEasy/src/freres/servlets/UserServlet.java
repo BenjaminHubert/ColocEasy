@@ -112,15 +112,27 @@ public class UserServlet extends HttpServlet {
 			final String lastName = request.getParameter("last_name");
 			final String id = request.getParameter("id");
 			final String sexe = request.getParameter("sexe");
-			final String password = request.getParameter(UserServlet.PWD) != null ? MD5.getMD5(request.getParameter(UserServlet.PWD)) : request.getParameter(UserServlet.PWD);
-			final String confirm = request.getParameter("password_confirmation") != null ? MD5.getMD5(request.getParameter(UserServlet.NEWPWD)) : null;
-			final String newPass = request.getParameter(UserServlet.NEWPWD) != null ? MD5.getMD5(request.getParameter(UserServlet.NEWPWD)) : null;
+			final String password = request.getParameter(UserServlet.PWD) != null && request.getParameter(UserServlet.PWD) != "" ? MD5.getMD5(request.getParameter(UserServlet.PWD)) : request.getParameter(UserServlet.PWD);
+			final String confirm = request.getParameter("password_confirmation") != null && request.getParameter("password_confirmation") != ""
+					? MD5.getMD5(request.getParameter(UserServlet.NEWPWD)) 
+							: null;
+			final String newPass = request.getParameter(UserServlet.NEWPWD) != null && request.getParameter(UserServlet.NEWPWD) != ""
+					? MD5.getMD5(request.getParameter(UserServlet.NEWPWD)) 
+							: null;
 			
 			if(id != null) {
-				if(newPass != null && newPass.equals(confirm) && password.equals(((User)request.getSession().getAttribute(UserServlet.USER_SESSION)).getPassword())){
-					if(this.userManager.editUser(id, login, newPass, lastName, firstName, birthDate, sexe)){
-						request.getSession().setAttribute(UserServlet.USER_SESSION, this.userManager.getUser(Integer.parseInt(id)));
-						request.setAttribute(UserServlet.SUCCESS, "The user "+login+" has been updated.");
+				if(password.equals(((User)request.getSession().getAttribute(UserServlet.USER_SESSION)).getPassword())){
+					if(newPass != null && confirm != null && newPass.equals(confirm)){
+						if(this.userManager.editUser(id, login, newPass, lastName, firstName, birthDate, sexe)){
+							request.getSession().setAttribute(UserServlet.USER_SESSION, this.userManager.getUser(Integer.parseInt(id)));
+							request.setAttribute(UserServlet.SUCCESS, "The user "+login+" has been updated.");
+						}
+					}
+					else if(newPass == null && confirm == null){
+						if(this.userManager.editUser(id, login, password, lastName, firstName, birthDate, sexe)){
+							request.getSession().setAttribute(UserServlet.USER_SESSION, this.userManager.getUser(Integer.parseInt(id)));
+							request.setAttribute(UserServlet.SUCCESS, "The user "+login+" has been updated.");
+						}
 					}
 				} else {
 					 request.setAttribute(UserServlet.ERRORMESSAGE, UserServlet.NOMATCH);

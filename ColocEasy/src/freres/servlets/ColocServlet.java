@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -19,6 +20,7 @@ import freres.models.ColocManagerDB;
 import freres.models.IColocManager;
 import freres.models.IImageManager;
 import freres.models.IUserManager;
+import freres.models.Image;
 import freres.models.ImageManagerDB;
 import freres.models.User;
 import freres.models.UserManagerDB;
@@ -104,7 +106,6 @@ public class ColocServlet extends HttpServlet {
 			ArrayList<String> imageList = new ArrayList<String>();
 
 			if(request.getMethod().equals("POST")){
-				//TODO: Vérifier l'intégrité des champs
 				String[] supportedContentTypes = { "image/jpeg", "image/png"};
 		        String appPath = request.getServletContext().getRealPath("");
 		        String savePath = appPath + File.separator + SAVE_DIR;
@@ -166,7 +167,6 @@ public class ColocServlet extends HttpServlet {
 			}
 			
 			if(request.getMethod().equals("POST")){
-				//TODO: Vérifier l'intégrité des champs
 
 				ArrayList<String> imageList = new ArrayList<String>();
 				String[] supportedContentTypes = { "image/jpeg", "image/png"};
@@ -217,14 +217,22 @@ public class ColocServlet extends HttpServlet {
 				this.imageManager.deleteImage(idImage);
 			}
 		}
-		response.sendRedirect("editColoc");
+		response.sendRedirect("editColoc?id="+request.getParameter("id"));
 		return;
 	}
 	
 	private void mine(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		final Integer idOwner = request.getSession().getAttribute("userSession") != null  ? ((User)request.getSession().getAttribute("userSession")).getId() : null;
+		
 		if(idOwner != null){
-			request.setAttribute("colocList", this.colocManager.getMine(idOwner));
+			List<Image> iList = new ArrayList<>();
+			List<Coloc> cList = this.colocManager.getMine(idOwner);
+			for (Coloc coloc : cList) {
+				Image i = this.imageManager.getPreview(coloc.getId());
+				iList.add(i);
+			}
+			request.setAttribute("colocList", cList);
+			request.setAttribute("colocImages", iList);
 		}
 		request.getRequestDispatcher("/WEB-INF/html/myColocs.jsp").forward(request, response);
 	}
@@ -238,8 +246,14 @@ public class ColocServlet extends HttpServlet {
 			Integer maxSurface = request.getParameter("sMaxSurface") != null && request.getParameter("sMaxSurface") != "" ? Integer.parseInt(request.getParameter("sMaxSurface")) : null;
 			String [] districts = request.getParameterValues("district");
 			
-			request.setAttribute("colocList", this.colocManager.filterColocs(districts, minRent, maxRent, minSurface, maxSurface));
-			
+			List<Image> iList = new ArrayList<>();
+			List<Coloc> cList = this.colocManager.filterColocs(districts, minRent, maxRent, minSurface, maxSurface);
+			for (Coloc coloc : cList) {
+				Image i = this.imageManager.getPreview(coloc.getId());
+				iList.add(i);
+			}
+			request.setAttribute("colocList", cList);
+			request.setAttribute("colocImages", iList);			
 		}
 		request.getRequestDispatcher("/WEB-INF/html/list.jsp").forward(request, response);		
 	}

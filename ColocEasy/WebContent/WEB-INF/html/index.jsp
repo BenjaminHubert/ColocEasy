@@ -103,11 +103,18 @@
 			<div class="row">
 				<div class="col s12">
 					<h4>Les dernières colocs</h4>
-					<c:forEach items="${requestScope.lastColocs }" var="coloc">
+					<c:forEach items="${requestScope.lastColocs }" var="coloc" varStatus="loop">
 						<div class="col s12 m4">
 							<div class="card">
 								    <div class="card-image waves-effect waves-block waves-light">
-								      	<img class="activator" src="img/background3.jpg">
+								    	<c:choose>
+											<c:when test="${colocImages[loop.index].path != null}">
+								      			<img class="activator" src="upload_img/${colocImages[loop.index].path }">
+											</c:when>
+											<c:otherwise>
+								      			<img class="activator" src="img/default.jpg">
+											</c:otherwise>					    	
+								    	</c:choose>
 								    </div>
 								    <div class="card-content">
 										<span class="card-title activator grey-text text-darken-4"><c:out value="${coloc.titre }"></c:out><i class="material-icons right">more_vert</i></span>

@@ -112,7 +112,7 @@
 													</c:if>
 												</c:forEach>
 							        		</div>
-											<input type="hidden" value="${param.id }" name="id">
+											<input type="hidden" value="${param.id }" name="id" id="chaussette">
 											<div class="row">
 												<button class="waves-effect waves-light btn right deep-orange lighten-1">Supprimer</button>
 											</div>
